@@ -1,0 +1,10 @@
+{
+  // Configuración para publicar en Cloudflare.
+  // Sirve la carpeta sitio/ como archivos estáticos: no hay código de servidor.
+  "name": "globseg-web",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./sitio",
+    "not_found_handling": "none"
+  }
+}
