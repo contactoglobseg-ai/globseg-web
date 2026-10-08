@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seguridad Garridos</title>
+<meta name="description" content="Seguridad Garridos (GLOBSEG SPA): guardias de seguridad, rondas y vigilancia móvil, cámaras y alarmas, y seguridad para eventos. Cada turno queda escrito: hora, punto, novedad y firma.">
+<meta name="theme-color" content="#0A0031">
+<link rel="icon" href="assets/logo.png">
+<meta property="og:title" content="Seguridad Garridos">
+<meta property="og:description" content="Guardias, rondas y cámaras para plantas, bodegas y oficinas. Cada turno queda escrito.">
+<meta property="og:image" content="assets/logo.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Archivo:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: fondo de tinta marino; el contenido se lee sobre hojas de libro de registro.
+   Columna de concepto a la izquierda de cada registro, cuerpo al centro, "queda escrito"
+   al costado. Un solo tema comprometido. */
+:root{
+  --tinta:#130052;
+  --tinta-prof:#0A0031;
+  --tinta-alta:#1E0A72;
+  --papel:#E7EBE3;
+  --papel-alt:#DCE2D6;
+  --papel-raya:#C2CBBD;
+  --verde:#00E88A;
+  --cian:#00A7F5;
+  --sobre-tinta:#F2F0FF;
+  --sobre-tinta-2:#B3ACE4;
+  --sobre-papel:#130052;
+  --sobre-papel-2:#4B4080;
+  --filete:rgba(242,240,255,.15);
+  --aviso:#FFC24A;
+  --degradado:linear-gradient(165deg,var(--verde) 0%,#01DDA5 48%,var(--cian) 100%);
+  --display:"Big Shoulders Display","Arial Narrow",Helvetica,sans-serif;
+  --cuerpo:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --sombra-papel:0 20px 44px -20px rgba(4,0,22,.75);
+  --env:1240px;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0}
+body{
+  background:var(--tinta);
+  color:var(--sobre-tinta);
+  font:400 1rem/1.62 var(--cuerpo);
+  overflow-x:hidden;
+}
+::selection{background:var(--verde);color:var(--tinta-prof)}
+:where(a,button,input,select,textarea,summary):focus-visible{
+  outline:2px solid var(--verde);outline-offset:2px;border-radius:2px;
+}
+*{scrollbar-color:#3B2B8A var(--tinta-prof)}
+*::-webkit-scrollbar{width:11px;height:11px}
+*::-webkit-scrollbar-track{background:var(--tinta-prof)}
+*::-webkit-scrollbar-thumb{background:#3B2B8A;border:3px solid var(--tinta-prof);border-radius:99px}
+img{max-width:100%;display:block}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;line-height:.92;
+  letter-spacing:-.015em;text-transform:uppercase;text-wrap:balance}
+p{margin:0}
+.env{max-width:var(--env);margin-inline:auto;padding-inline:clamp(16px,4vw,48px)}
+.hora{font-variant-numeric:tabular-nums}
+
+/* ---------- barra ---------- */
+.barra{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:var(--tinta-prof);border-bottom:1px solid var(--filete);
+}
+.barra__in{display:flex;align-items:center;gap:clamp(16px,3vw,40px);
+  min-height:64px;padding-block:10px}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;margin-right:auto}
+.marca img{width:38px;height:38px}
+.marca__txt{display:block}
+.marca__txt b{display:block;font-family:var(--display);font-weight:700;font-size:1.22rem;
+  letter-spacing:.005em;text-transform:uppercase;line-height:1;color:var(--sobre-tinta)}
+.marca__txt span{display:block;font-size:.66rem;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--sobre-tinta-2);margin-top:3px}
+.nav{display:flex;gap:clamp(14px,2vw,28px)}
+.nav a{color:var(--sobre-tinta-2);text-decoration:none;font-size:.9rem;font-weight:500;
+  padding-block:6px;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
+.nav a:hover{color:var(--sobre-tinta);border-bottom-color:var(--verde)}
+@media (max-width:860px){.nav{display:none}}
+
+/* ---------- botones ---------- */
+.bt{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font:600 .95rem/1 var(--cuerpo);letter-spacing:.005em;
+  padding:14px 20px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;
+  transition:transform .14s cubic-bezier(.2,.8,.2,1),box-shadow .14s,background-color .14s;
+}
+.bt svg{width:19px;height:19px;flex:none}
+.bt--pri{background:var(--degradado);color:#05231A;
+  box-shadow:0 10px 24px -12px rgba(0,232,138,.7)}
+.bt--pri:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(0,232,138,.8)}
+.bt--pri:active{transform:translateY(0)}
+.bt--fan{background:transparent;color:var(--sobre-tinta);box-shadow:inset 0 0 0 1px var(--filete)}
+.bt--fan:hover{box-shadow:inset 0 0 0 1px var(--verde);color:#fff}
+.bt--papel{background:var(--tinta);color:var(--sobre-tinta)}
+.bt--papel:hover{background:var(--tinta-alta);transform:translateY(-2px)}
+.bt--bloque{width:100%}
+.bt[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ---------- portada ---------- */
+.portada{padding-block:clamp(40px,6vw,76px) clamp(28px,4vw,48px);position:relative}
+.portada::before{
+  content:"";position:absolute;inset:0 0 auto;height:1px;background:var(--degradado);opacity:.5
+}
+.portada__rej{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(28px,4vw,56px);align-items:start}
+@media (max-width:980px){.portada__rej{grid-template-columns:1fr;gap:36px}}
+
+h1{font-size:clamp(2.7rem,6.6vw,5rem)}
+.tesis{
+  font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(1.05rem,2vw,1.42rem);line-height:1.08;letter-spacing:.005em;
+  color:var(--sobre-tinta);margin-top:18px;max-width:22ch;
+  padding-top:16px;border-top:1px solid var(--filete);
+}
+.bajada{margin-top:18px;max-width:54ch;color:var(--sobre-tinta-2);font-size:1.03rem;line-height:1.68}
+.bajada strong{color:var(--sobre-tinta);font-weight:600}
+
+/* ---------- línea de bitácora (acción) ---------- */
+.linea{
+  margin-top:28px;background:var(--tinta-prof);
+  box-shadow:inset 0 0 0 1px var(--filete);border-radius:3px;overflow:hidden;
+}
+.linea__tit{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  padding:13px 16px;border-bottom:1px solid var(--filete);
+}
+.linea__tit b{font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:1.02rem;letter-spacing:.02em}
+.linea__tit span{font-size:.78rem;color:var(--sobre-tinta-2)}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+.campos > :last-child{grid-column:1/-1}
+@media (max-width:560px){.campos{grid-template-columns:1fr}}
+.campo{display:flex;flex-direction:column;gap:6px;min-width:0}
+.campo > span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sobre-tinta-2)}
+.campo input,.campo select,.campo textarea{
+  font:400 .97rem/1.4 var(--cuerpo);color:var(--sobre-tinta);
+  background:#160A47;border:1px solid var(--filete);border-radius:3px;
+  padding:11px 12px;width:100%;caret-color:var(--cian);
+  transition:border-color .15s,background-color .15s;
+}
+.campo textarea{resize:vertical;min-height:88px}
+.campo input::placeholder,.campo textarea::placeholder{color:#8278C4}
+.campo input:hover,.campo select:hover,.campo textarea:hover{border-color:#4B3B9E}
+.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--verde);background:#1A0C55;outline:none}
+.campo select{appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B3ACE4' stroke-width='1.6'><path d='M6 9.5l6 5 6-5'/></svg>");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:19px;padding-right:36px}
+.campo--mal input,.campo--mal select{border-color:#FF8A7A}
+.campo em{font-style:normal;font-size:.8rem;color:#FF8A7A}
+.linea__pie{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px}
+.nota{font-size:.82rem;color:var(--sobre-tinta-2);line-height:1.5}
+.nota a{color:var(--verde);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- hoja del libro ---------- */
+.hoja{
+  position:relative;background:var(--papel);color:var(--sobre-papel);
+  border-radius:3px;box-shadow:var(--sombra-papel);overflow:hidden;
+}
+.hoja__tit{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:14px 18px 13px 64px;background:var(--papel-alt);
+  border-bottom:1px solid var(--papel-raya);
+}
+.hoja__tit b{font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:.98rem;letter-spacing:.04em}
+.ejemplo{
+  margin-left:auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--sobre-papel-2);
+  border:1px solid var(--papel-raya);border-radius:2px;padding:3px 7px;background:var(--papel);
+}
+.hoja__cuerpo{position:relative}
+.hoja__margen{
+  position:absolute;left:56px;top:0;bottom:0;width:2px;background:var(--degradado);
+  transform-origin:top;
+}
+.reg-fila{
+  display:grid;grid-template-columns:56px 1fr;align-items:baseline;gap:0 16px;
+  border-bottom:1px solid var(--papel-raya);
+}
+.reg-fila:last-child{border-bottom:0}
+.reg-fila > .hora{
+  font-size:.82rem;font-weight:600;color:var(--sobre-papel-2);
+  padding:13px 10px 13px 0;text-align:right;
+}
+.reg-fila > p{padding:13px 18px 13px 8px;font-size:.93rem;line-height:1.55}
+.reg-fila > p b{font-weight:600}
+.hoja__pie{
+  display:flex;align-items:center;justify-content:space-between;gap:12px 18px;flex-wrap:wrap;
+  padding:14px 18px 14px 64px;border-top:1px solid var(--papel-raya);background:var(--papel-alt);
+  font-size:.82rem;color:var(--sobre-papel-2);
+}
+.firma{display:flex;align-items:center;gap:9px}
+.firma i{display:block;width:92px;height:1px;background:var(--sobre-papel-2);opacity:.5}
+.timbre{width:58px;height:58px;flex:none;opacity:.92;
+  transform:rotate(-7deg);pointer-events:none}
+
+/* ---------- cintas y secciones ---------- */
+.cinta{
+  border-block:1px solid var(--filete);background:var(--tinta-prof);
+}
+.cinta__in{display:flex;flex-wrap:wrap;gap:10px 26px;padding-block:15px;
+  font-size:.83rem;color:var(--sobre-tinta-2)}
+.cinta__in b{color:var(--sobre-tinta);font-weight:600}
+.cinta__in > span{display:flex;align-items:center;gap:8px}
+.cinta__in svg{width:16px;height:16px;color:var(--verde);flex:none}
+
+section{scroll-margin-top:84px}
+.sec{padding-block:clamp(56px,8vw,104px)}
+.sec__tit{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  padding-bottom:20px;border-bottom:1px solid var(--filete)}
+.sec__tit h2{font-size:clamp(1.9rem,4vw,3.05rem)}
+.sec__tit p{color:var(--sobre-tinta-2);max-width:46ch;font-size:.97rem}
+
+/* registros de servicio */
+.registros{margin-top:0}
+.reg{
+  display:grid;grid-template-columns:152px minmax(0,1fr) 300px;gap:0 32px;
+  padding-block:30px;border-bottom:1px solid var(--filete);
+  transition:background-color .18s;
+}
+.reg:hover{background:rgba(242,240,255,.035)}
+.reg__con{
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  color:var(--sobre-tinta-2);display:flex;align-items:flex-start;gap:9px;padding-top:5px;
+}
+.reg__con svg{width:20px;height:20px;color:var(--verde);flex:none}
+.reg h3{font-size:1.52rem;letter-spacing:-.005em}
+.reg__txt{margin-top:11px;color:var(--sobre-tinta-2);max-width:58ch;line-height:1.66}
+.reg__esc{
+  align-self:start;background:var(--tinta-prof);border-radius:3px;
+  box-shadow:inset 0 0 0 1px var(--filete);padding:14px 15px;
+}
+.reg__esc b{display:block;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--verde);margin-bottom:7px}
+.reg__esc p{font-size:.86rem;line-height:1.55;color:var(--sobre-tinta-2)}
+.reg--lead{padding-block:40px}
+.reg--lead h3{font-size:clamp(1.9rem,3.4vw,2.6rem)}
+.reg--lead .reg__txt{font-size:1.06rem;color:var(--sobre-tinta);max-width:52ch}
+@media (max-width:1040px){
+  .reg{grid-template-columns:132px minmax(0,1fr);gap:0 24px}
+  .reg__esc{grid-column:2;margin-top:16px}
+}
+@media (max-width:620px){
+  .reg{grid-template-columns:1fr;gap:0}
+  .reg__con{padding-top:0;margin-bottom:12px}
+  .reg__esc{grid-column:1;}
+}
+
+/* expediente: documentos reales */
+.exp{display:grid;grid-template-columns:.86fr 1.14fr;gap:clamp(28px,4vw,56px);align-items:start}
+@media (max-width:900px){.exp{grid-template-columns:1fr}}
+.exp__lado p{color:var(--sobre-tinta-2);margin-top:16px;max-width:42ch;line-height:1.68}
+.carpeta{background:var(--papel);color:var(--sobre-papel);border-radius:3px;
+  box-shadow:var(--sombra-papel);overflow:hidden}
+.carpeta__tit{display:flex;align-items:center;gap:10px;padding:14px 18px;
+  background:var(--papel-alt);border-bottom:1px solid var(--papel-raya);
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:.96rem;letter-spacing:.04em}
+.carpeta__tit svg{width:18px;height:18px}
+.doc{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:baseline;
+  padding:13px 18px;border-bottom:1px solid var(--papel-raya)}
+.doc:last-child{border-bottom:0}
+.doc:nth-child(even){background:rgba(19,0,82,.028)}
+.doc > b{font-size:.72rem;letter-spacing:.1em;font-weight:700;color:var(--sobre-papel);
+  min-width:52px}
+.doc > span{font-size:.9rem;line-height:1.5;color:var(--sobre-papel-2)}
+
+/* pasos: la secuencia es la información */
+.pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--filete);
+  margin-top:0;border:1px solid var(--filete);border-radius:3px;overflow:hidden}
+@media (max-width:900px){.pasos{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:540px){.pasos{grid-template-columns:1fr}}
+.paso{background:var(--tinta);padding:24px 22px 26px}
+.paso > b{font-family:var(--display);font-weight:800;font-size:2.1rem;line-height:1;
+  color:var(--verde);display:block}
+.paso h3{font-size:1.14rem;margin-top:12px}
+.paso p{margin-top:9px;font-size:.9rem;line-height:1.6;color:var(--sobre-tinta-2)}
+
+/* sectores */
+.sectores{display:flex;flex-wrap:wrap;gap:9px;margin-top:0}
+.sectores li{list-style:none;font-size:.9rem;font-weight:500;
+  padding:9px 15px;border-radius:2px;background:var(--tinta-prof);
+  box-shadow:inset 0 0 0 1px var(--filete);color:var(--sobre-tinta)}
+
+/* contacto */
+.cont{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:start}
+@media (max-width:900px){.cont{grid-template-columns:1fr}}
+.datos{margin-top:8px;display:flex;flex-direction:column;gap:0}
+.dato{display:grid;grid-template-columns:118px minmax(0,1fr) auto;gap:14px;align-items:center;
+  padding-block:15px;border-bottom:1px solid var(--filete)}
+.dato > b{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sobre-tinta-2);font-weight:600}
+.dato > span{font-size:1.04rem;font-weight:500;word-break:break-word}
+.copiar{background:none;border:1px solid var(--filete);border-radius:2px;color:var(--sobre-tinta-2);
+  font:500 .76rem/1 var(--cuerpo);padding:7px 10px;cursor:pointer;transition:color .15s,border-color .15s}
+.copiar:hover{color:var(--sobre-tinta);border-color:var(--verde)}
+.copiar[data-ok="1"]{color:var(--verde);border-color:var(--verde)}
+
+/* estados del envío */
+.linea__ok{padding:24px 16px;display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.linea__ok b{font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:1.34rem;letter-spacing:.01em;color:var(--verde);line-height:1}
+.linea__ok p{font-size:.95rem;line-height:1.6;color:var(--sobre-tinta-2)}
+.bt[aria-busy="true"]{opacity:.65;pointer-events:none}
+.nota--mal{color:var(--aviso)}
+.datos__rot{margin-top:30px;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--sobre-tinta-2);font-weight:600}
+.solo-angosto{display:none}
+
+/* dato por confirmar */
+.pend{
+  text-decoration:underline dotted var(--aviso);text-underline-offset:4px;
+  color:var(--aviso);font-weight:500;
+}
+.pend[data-dato]::after{
+  content:"por confirmar";font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  vertical-align:.32em;margin-left:7px;color:var(--aviso);opacity:.85;font-weight:600;
+}
+
+/* pie */
+.pie{border-top:1px solid var(--filete);background:var(--tinta-prof);
+  padding-block:34px calc(34px + env(safe-area-inset-bottom,0px))}
+.pie__in{display:flex;gap:26px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.pie__legal{font-size:.84rem;color:var(--sobre-tinta-2);line-height:1.6}
+.pie__legal b{color:var(--sobre-tinta);font-weight:600}
+
+/* teléfono */
+@media (max-width:600px){
+  .barra__in{gap:12px;min-height:56px}
+  .marca img{width:32px;height:32px}
+  .marca__txt b{font-size:1.02rem;white-space:nowrap}
+  .marca__txt span{display:none}
+  .bt{padding:12px 15px;font-size:.9rem}
+  .solo-ancho{display:none}
+  .solo-angosto{display:inline}
+  .hoja__margen{left:44px}
+  .reg-fila{grid-template-columns:44px 1fr}
+  .hoja__tit,.hoja__pie{padding-left:52px}
+  .bajada{font-size:1rem}
+  .dato{grid-template-columns:96px minmax(0,1fr);row-gap:4px}
+  .dato > .copiar{grid-column:2;justify-self:start}
+}
+
+/* el único momento de movimiento: la hoja al cargar */
+@media (prefers-reduced-motion:no-preference){
+  .hoja__margen{animation:raya .8s cubic-bezier(.16,1,.3,1) both}
+  .timbre{animation:timbre .7s .25s cubic-bezier(.16,1,.3,1) both}
+}
+@keyframes raya{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes timbre{
+  from{transform:rotate(-16deg) scale(1.14);opacity:.25}
+  to{transform:rotate(-7deg) scale(1);opacity:.9}
+}
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="env barra__in">
+    <a class="marca" href="#">
+      <img src="assets/logo.png" alt="Escudo de Seguridad Garridos" width="38" height="38">
+      <span class="marca__txt">
+        <b>Seguridad Garridos</b>
+        <span>GLOBSEG SPA</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#servicios">Servicios</a>
+      <a href="#expediente">Procedimientos</a>
+      <a href="#pasos">Cómo partimos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="bt bt--pri" href="#contacto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5.2c0-.7.6-1.3 1.3-1.3h2c.6 0 1.1.4 1.2 1l.6 2.5c.1.5-.1 1-.5 1.2l-1.2.8a9.5 9.5 0 0 0 4.7 4.7l.8-1.2c.3-.4.7-.6 1.2-.5l2.5.6c.6.1 1 .6 1 1.2v2c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 5.2Z"/></svg>
+      <span class="bt__txt"><span class="solo-ancho">Dejar mis datos</span><span class="solo-angosto">Contacto</span></span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <!-- PORTADA -->
+  <section class="portada">
+    <div class="env portada__rej">
+      <div>
+        <h1>Guardias, rondas y cámaras para su planta, bodega u oficina</h1>
+        <p class="tesis">Y el turno queda escrito</p>
+        <p class="bajada">Seguridad Garridos toma el puesto completo: dotación, turnos, consignas por escrito y supervisión. Usted recibe el registro de lo que pasó —<strong>hora, punto, novedad y firma</strong>— no solo la factura del mes. Deje sus datos y nos ponemos en contacto.</p>
+
+        <form class="linea" id="f-rapido" data-origen="Portada (formulario corto)" novalidate>
+          <div class="linea__tit">
+            <b>Deje sus datos</b>
+            <span>Nos ponemos en contacto</span>
+          </div>
+          <div class="campos">
+            <label class="campo">
+              <span>Nombre</span>
+              <input name="nombre" type="text" autocomplete="name" placeholder="Su nombre" required>
+              <em hidden>Escriba su nombre.</em>
+            </label>
+            <label class="campo">
+              <span>Teléfono</span>
+              <input name="fono" type="tel" autocomplete="tel" inputmode="tel" placeholder="+56 9 ..." required>
+              <em hidden>Escriba un teléfono de contacto.</em>
+            </label>
+            <label class="campo">
+              <span>Qué hay que cuidar</span>
+              <select name="lugar" required>
+                <option value="">Elija una opción</option>
+                <option>Planta o industria</option>
+                <option>Bodega o centro de distribución</option>
+                <option>Oficina o edificio corporativo</option>
+                <option>Obra en construcción</option>
+                <option>Comercio o retail</option>
+                <option>Condominio o edificio</option>
+                <option>Evento</option>
+                <option>Otro</option>
+              </select>
+              <em hidden>Elija qué hay que cuidar.</em>
+            </label>
+          </div>
+          <div class="linea__pie">
+            <button class="bt bt--pri bt--bloque" type="submit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.8 20 4l-7.2 16-1.9-6.1Z"/><path d="M10.9 13.9 20 4"/></svg>
+              Quiero que me contacten
+            </button>
+            <p class="nota" id="f-rapido-nota" role="status">Coordinamos una visita al lugar, sin costo.</p>
+          </div>
+          <div class="linea__ok" hidden>
+            <b>Datos recibidos</b>
+            <p></p>
+          </div>
+        </form>
+      </div>
+
+      <!-- la hoja del libro -->
+      <div class="hoja">
+        <div class="hoja__tit">
+          <b>Libro de novedades</b>
+          <span class="ejemplo">Registro de ejemplo</span>
+        </div>
+        <div class="hoja__cuerpo">
+          <i class="hoja__margen" aria-hidden="true"></i>
+          <div class="reg-fila"><span class="hora">22:00</span><p><b>Relevo de turno.</b> Recibe puesto portería norte. Linterna, radio y libro conformes.</p></div>
+          <div class="reg-fila"><span class="hora">22:40</span><p><b>Ronda 1 de 4.</b> Portón 3 y bodega de despacho cerrados. Sin novedad.</p></div>
+          <div class="reg-fila"><span class="hora">01:15</span><p><b>Ronda 2 de 4.</b> Luminaria del patio norte apagada. Informado al jefe de planta.</p></div>
+          <div class="reg-fila"><span class="hora">03:30</span><p><b>Ronda 3 de 4.</b> Camión en playa de estacionamiento fuera de horario. Patente registrada.</p></div>
+          <div class="reg-fila"><span class="hora">06:00</span><p><b>Ronda 4 de 4.</b> Sin novedad. Entrega de turno al relevo del día.</p></div>
+        </div>
+        <div class="hoja__pie">
+          <span>Entrega de puesto</span>
+          <img class="timbre" src="assets/logo.png" alt="" width="58" height="58" aria-hidden="true">
+          <span class="firma">Firma <i></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CINTA -->
+  <div class="cinta">
+    <div class="env cinta__in">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4-2.9 7.6-7 8.5-4.1-.9-7-4.5-7-8.5V6l7-3Z"/><path d="M9.2 12.1l2 2 3.6-3.9"/></svg>
+        Personal con credencial <b class="pend">OS-10</b>
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h4"/></svg>
+        Procedimientos escritos y firmados
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.6V12l3 1.8"/></svg>
+        Turnos diurnos, nocturnos y 24/7
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20V9l9-5 9 5v11"/><path d="M9 20v-6h6v6"/></svg>
+        Cobertura en <b class="pend" data-dato="zona">su zona</b>
+      </span>
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <section class="sec" id="servicios">
+    <div class="env">
+      <div class="sec__tit">
+        <h2>Lo que tomamos</h2>
+        <p>Cuatro servicios. En todos, lo que pasa en el turno queda registrado y se le entrega.</p>
+      </div>
+
+      <div class="registros">
+        <article class="reg reg--lead">
+          <div class="reg__con">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M16 11h4v10"/><circle cx="10" cy="8.5" r="2.1"/><path d="M6.6 16.2a3.6 3.6 0 0 1 6.8 0"/></svg>
+            Dotación
+          </div>
+          <div>
+            <h3>Guardias de seguridad</h3>
+            <p class="reg__txt">Guardias uniformados en planta, bodega, oficina, obra, comercio y condominio. Control de acceso y portería, registro de visitas y de vehículos, recorrido de puntos críticos y entrega de puesto al relevo. Turnos diurnos, nocturnos y 24/7.</p>
+          </div>
+          <div class="reg__esc">
+            <b>Queda escrito</b>
+            <p>Libro de novedades por turno, registro de ingreso de personas y vehículos, y entrega de puesto firmada por quien recibe.</p>
+          </div>
+        </article>
+
+        <article class="reg">
+          <div class="reg__con">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6.5" r="2.4"/><circle cx="18" cy="17.5" r="2.4"/><path d="M8.4 6.5h5.1a3.5 3.5 0 0 1 0 7H9.9a3.5 3.5 0 0 0 0 7h5.7"/></svg>
+            Móvil
+          </div>
+          <div>
+            <h3>Rondas y vigilancia móvil</h3>
+            <p class="reg__txt">Patrullaje en vehículo con rondas programadas y aleatorias, verificación de puntos críticos y supervisión nocturna. Útil cuando no se justifica un guardia fijo las 24 horas.</p>
+          </div>
+          <div class="reg__esc">
+            <b>Queda escrito</b>
+            <p>Hora y punto de cada ronda, la novedad y la acción tomada. El patrullaje a pie y en vehículo tiene procedimiento de trabajo seguro propio.</p>
+          </div>
+        </article>
+
+        <article class="reg">
+          <div class="reg__con">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5l13-2.5 1.2 5.2-13 2.5z"/><path d="M17.3 8.2L21 7v6l-3.7-1.2"/><path d="M7 13v3.5a2 2 0 0 1-2 2H4.5"/><circle cx="9.6" cy="9" r="1.1"/></svg>
+            Tecnología
+          </div>
+          <div>
+            <h3>Cámaras y alarmas</h3>
+            <p class="reg__txt">CCTV, alarmas y sensores: instalación, mantención y revisión de grabaciones cuando ocurre un evento. Se puede combinar con guardia o con rondas para cubrir lo que la cámara no alcanza.</p>
+          </div>
+          <div class="reg__esc">
+            <b>Queda escrito</b>
+            <p>Informe del evento con la hora y el respaldo del video, para que sirva ante el seguro o ante una denuncia.</p>
+          </div>
+        </article>
+
+        <article class="reg">
+          <div class="reg__con">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.2V6.5h18v2.7a2.2 2.2 0 0 0 0 4.4v4.9H3v-4.9a2.2 2.2 0 0 0 0-4.4Z"/><path d="M12 6.5v11"/></svg>
+            Eventos
+          </div>
+          <div>
+            <h3>Seguridad para eventos</h3>
+            <p class="reg__txt">Dotación por horas para eventos masivos y privados: control de acceso, acreditación, orden de público y resguardo de escenario, camarines y bodegas. Coordinamos con la productora antes del día.</p>
+          </div>
+          <div class="reg__esc">
+            <b>Queda escrito</b>
+            <p>Dotación por puerta y por puesto, y reporte de cierre del evento con lo que ocurrió en cada acceso.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPEDIENTE -->
+  <section class="sec" id="expediente" style="background:var(--tinta-prof);border-block:1px solid var(--filete)">
+    <div class="env exp">
+      <div class="exp__lado">
+        <h2>El procedimiento no se improvisa en terreno</h2>
+        <p>Antes de que un guardia llegue a su instalación, ya existe por escrito qué hace en una emergencia, cómo patrulla y qué elementos de protección recibe. El personal lo recibe firmado, y usted puede pedir la carpeta.</p>
+      </div>
+      <div class="carpeta">
+        <div class="carpeta__tit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.4h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
+          Documentos vigentes
+        </div>
+        <div class="doc"><b>MIPER</b><span>Matriz de identificación de peligros y evaluación de riesgos</span></div>
+        <div class="doc"><b>PTS</b><span>Procedimiento de trabajo seguro: funcionarios de seguridad en patrullaje</span></div>
+        <div class="doc"><b>PTS</b><span>Procedimiento de trabajo seguro: patrullaje en vehículo</span></div>
+        <div class="doc"><b>Emerg.</b><span>Procedimiento ante emergencias</span></div>
+        <div class="doc"><b>RIOHS</b><span>Reglamento interno de orden, higiene y seguridad, con recepción firmada</span></div>
+        <div class="doc"><b>Capac.</b><span>Registro de capacitación en obligación de informar los riesgos laborales</span></div>
+        <div class="doc"><b>EPP</b><span>Entrega de elementos de protección personal con protocolo de cargo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASOS -->
+  <section class="sec" id="pasos">
+    <div class="env">
+      <div class="sec__tit">
+        <h2>Cómo partimos</h2>
+        <p>Cuatro pasos, en este orden. Del primer contacto al guardia en el puesto.</p>
+      </div>
+      <div class="pasos">
+        <div class="paso">
+          <b>1</b>
+          <h3>Visita al lugar</h3>
+          <p>Recorremos accesos, puntos ciegos, horarios críticos y qué se está perdiendo o dañando. Sin costo y sin compromiso.</p>
+        </div>
+        <div class="paso">
+          <b>2</b>
+          <h3>Dotación y consignas</h3>
+          <p>Definimos cuántos puestos, qué turnos y qué hace el guardia en cada uno. Se entrega por escrito, con el precio por turno.</p>
+        </div>
+        <div class="paso">
+          <b>3</b>
+          <h3>Puesta en marcha</h3>
+          <p>El guardia llega presentado, con credencial, uniforme, elementos de protección y las consignas de su puesto.</p>
+        </div>
+        <div class="paso">
+          <b>4</b>
+          <h3>Supervisión y registro</h3>
+          <p>Rondas de supervisión, libro de novedades al día y un canal directo con el encargado de su instalación.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTORES -->
+  <section class="sec" style="padding-block:0 clamp(56px,8vw,104px)">
+    <div class="env">
+      <div class="sec__tit" style="border-bottom:0;padding-bottom:16px">
+        <h2 style="font-size:clamp(1.5rem,2.6vw,2rem)">Dónde trabajamos</h2>
+      </div>
+      <ul class="sectores">
+        <li>Plantas e industria</li>
+        <li>Bodegas y centros de distribución</li>
+        <li>Oficinas y edificios corporativos</li>
+        <li>Obras y construcción</li>
+        <li>Retail y comercio</li>
+        <li>Condominios y edificios</li>
+        <li>Agrícola y forestal</li>
+        <li>Eventos y productoras</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="sec" id="contacto" style="background:var(--tinta-prof);border-top:1px solid var(--filete)">
+    <div class="env cont">
+      <div>
+        <h2>Déjenos sus datos</h2>
+        <p class="bajada" style="max-width:46ch">Escriba su nombre, un teléfono y qué hay que cuidar. Nos ponemos en contacto para coordinar la visita al lugar, que no tiene costo.</p>
+
+        <p class="datos__rot">Si prefiere llamar usted</p>
+        <div class="datos">
+          <div class="dato">
+            <b>Teléfono</b>
+            <span class="pend" data-dato="telefono">+56 ...</span>
+            <button class="copiar" type="button" data-copiar="telefono" hidden>Copiar</button>
+          </div>
+          <div class="dato">
+            <b>Correo</b>
+            <span class="pend" data-dato="email">contacto@...</span>
+            <button class="copiar" type="button" data-copiar="email" hidden>Copiar</button>
+          </div>
+          <div class="dato">
+            <b>Cobertura</b>
+            <span class="pend" data-dato="zona">Su zona</span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <form class="linea" id="f-largo" data-origen="Contacto (formulario completo)" novalidate style="margin-top:0">
+        <div class="linea__tit">
+          <b>Solicitud de servicio</b>
+          <span>Mientras más nos diga, mejor llegamos a la visita</span>
+        </div>
+        <div class="campos">
+          <label class="campo">
+            <span>Nombre</span>
+            <input name="nombre" type="text" autocomplete="name" placeholder="Su nombre" required>
+            <em hidden>Escriba su nombre.</em>
+          </label>
+          <label class="campo">
+            <span>Empresa</span>
+            <input name="empresa" type="text" autocomplete="organization" placeholder="Razón social o nombre de fantasía">
+          </label>
+          <label class="campo">
+            <span>Teléfono</span>
+            <input name="fono" type="tel" autocomplete="tel" inputmode="tel" placeholder="+56 9 ..." required>
+            <em hidden>Escriba un teléfono de contacto.</em>
+          </label>
+          <label class="campo">
+            <span>Comuna</span>
+            <input name="comuna" type="text" autocomplete="address-level2" placeholder="Dónde queda el lugar" required>
+            <em hidden>Escriba la comuna.</em>
+          </label>
+          <label class="campo">
+            <span>Servicio</span>
+            <select name="servicio" required>
+              <option value="">Elija una opción</option>
+              <option>Guardias de seguridad</option>
+              <option>Rondas y vigilancia móvil</option>
+              <option>Cámaras y alarmas</option>
+              <option>Seguridad para eventos</option>
+              <option>Más de uno / no estoy seguro</option>
+            </select>
+            <em hidden>Elija el servicio.</em>
+          </label>
+          <label class="campo">
+            <span>Turno</span>
+            <select name="turno" required>
+              <option value="">Elija una opción</option>
+              <option>Diurno</option>
+              <option>Nocturno</option>
+              <option>24/7</option>
+              <option>Fin de semana</option>
+              <option>Por horas</option>
+              <option>Todavía no lo sé</option>
+            </select>
+            <em hidden>Elija el turno.</em>
+          </label>
+          <label class="campo">
+            <span>Detalle del lugar</span>
+            <textarea name="detalle" placeholder="Por ejemplo: bodega de 2.000 m², un acceso de camiones, turno noche de lunes a sábado."></textarea>
+          </label>
+        </div>
+        <div class="linea__pie">
+          <button class="bt bt--pri bt--bloque" type="submit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.8 20 4l-7.2 16-1.9-6.1Z"/><path d="M10.9 13.9 20 4"/></svg>
+            Enviar mis datos
+          </button>
+          <p class="nota" id="f-largo-nota" role="status">Horario de atención <span class="pend">por definir</span>.</p>
+        </div>
+        <div class="linea__ok" hidden>
+          <b>Datos recibidos</b>
+          <p></p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="env pie__in">
+    <a class="marca" href="#" style="margin-right:0">
+      <img src="assets/logo.png" alt="" width="38" height="38" aria-hidden="true">
+      <span class="marca__txt">
+        <b>Seguridad Garridos</b>
+        <span>Desde 2025</span>
+      </span>
+    </a>
+    <p class="pie__legal">
+      <b>GLOBSEG SPA</b> · RUT 78.095.104-4<br>
+      Seguridad privada: guardias, rondas, cámaras y eventos.
+    </p>
+  </div>
+</footer>
+
+<script>
+/* ------------------------------------------------------------------
+   CONFIGURACIÓN — rellenar aquí y la página se actualiza sola.
+
+   envio.url  : la dirección que entrega Google al publicar el Apps Script
+                de la planilla. Termina en /exec. Los pasos para obtenerla
+                están en COMO-CONECTAR-LA-PLANILLA.md
+   envio.modo : "leer" confirma la respuesta de Google antes de dar el
+                envío por bueno. Si el navegador bloquea esa lectura por
+                CORS, cambiar a "opaco": el dato se manda igual, pero la
+                página no puede confirmar que llegó.
+   envio.extra: campos fijos que se agregan a cada envío, si se necesitan.
+
+   Mientras envio.url esté vacío, el formulario valida y avisa que el
+   envío no está conectado, en vez de perder un contacto en silencio.
+
+   telefono / email: solo para quien prefiera llamar. Si los deja
+   vacíos, no se muestran como datos confirmados.
+------------------------------------------------------------------ */
+const DATOS = {
+  telefono: "",                 // ej: "+56 2 2345 6789"
+  email: "",                    // ej: "contacto@seguridadgarridos.cl"
+  zona: "",                     // ej: "Región Metropolitana"
+  horario: "",                  // ej: "Lunes a viernes de 9 a 19 h"
+  envio: {
+    url: "",                    // ej: "https://script.google.com/macros/s/AKfy.../exec"
+    modo: "leer",               // "leer" o "opaco"
+    contentType: "text/plain;charset=utf-8",
+    extra: {}
+  }
+};
+
+(function () {
+  "use strict";
+
+  // 1. Volcar los datos que sí existen
+  const pon = (clave, valor) => {
+    if (!valor) return;
+    document.querySelectorAll('[data-dato="' + clave + '"]').forEach(el => {
+      el.textContent = valor;
+      el.classList.remove("pend");
+    });
+    const bt = document.querySelector('[data-copiar="' + clave + '"]');
+    if (bt) bt.hidden = false;
+  };
+  pon("telefono", DATOS.telefono);
+  pon("email", DATOS.email);
+  pon("zona", DATOS.zona);
+
+  if (DATOS.horario) {
+    const nota = document.getElementById("f-largo-nota");
+    if (nota) nota.textContent = "Horario de atención: " + DATOS.horario + ".";
+  }
+
+  // 2. Copiar al portapapeles, con respaldo si el navegador lo rechaza
+  const copiar = async (texto, boton) => {
+    try {
+      await navigator.clipboard.writeText(texto);
+    } catch (e) {
+      const campo = document.createElement("textarea");
+      campo.value = texto;
+      campo.setAttribute("readonly", "");
+      campo.style.cssText = "position:fixed;top:-1000px;opacity:0";
+      document.body.appendChild(campo);
+      campo.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch (e2) { ok = false; }
+      campo.remove();
+      if (!ok) return false;
+    }
+    if (boton) {
+      const antes = boton.textContent;
+      boton.textContent = "Copiado";
+      boton.dataset.ok = "1";
+      setTimeout(() => { boton.textContent = antes; delete boton.dataset.ok; }, 1800);
+    }
+    return true;
+  };
+
+  document.querySelectorAll("[data-copiar]").forEach(bt => {
+    bt.addEventListener("click", () => {
+      const el = document.querySelector('[data-dato="' + bt.dataset.copiar + '"]');
+      if (el) copiar(el.textContent.trim(), bt);
+    });
+  });
+
+  // 3. Validación: el campo nombra el problema y cómo arreglarlo
+  const revisar = form => {
+    let primerMalo = null;
+    form.querySelectorAll(".campo").forEach(campo => {
+      const control = campo.querySelector("input,select,textarea");
+      const aviso = campo.querySelector("em");
+      if (!control || !control.required) return;
+      const vacio = !control.value.trim();
+      campo.classList.toggle("campo--mal", vacio);
+      if (aviso) aviso.hidden = !vacio;
+      control.setAttribute("aria-invalid", vacio ? "true" : "false");
+      if (vacio && !primerMalo) primerMalo = control;
+    });
+    if (primerMalo) primerMalo.focus();
+    return !primerMalo;
+  };
+
+  document.querySelectorAll("form").forEach(form => {
+    form.addEventListener("input", e => {
+      const campo = e.target.closest(".campo");
+      if (!campo || !campo.classList.contains("campo--mal")) return;
+      if (e.target.value.trim()) {
+        campo.classList.remove("campo--mal");
+        const aviso = campo.querySelector("em");
+        if (aviso) aviso.hidden = true;
+        e.target.setAttribute("aria-invalid", "false");
+      }
+    });
+  });
+
+  // 4. Armar el envío con nombres legibles, para que el correo se entienda
+  const etiquetas = {
+    nombre: "Nombre", fono: "Teléfono", empresa: "Empresa", comuna: "Comuna",
+    lugar: "Qué hay que cuidar", servicio: "Servicio", turno: "Turno", detalle: "Detalle"
+  };
+
+  const datosDe = form => {
+    const d = {};
+    new FormData(form).forEach((valor, nombre) => {
+      const v = String(valor).trim();
+      if (v) d[etiquetas[nombre] || nombre] = v;
+    });
+    return d;
+  };
+
+  const nota = (form, texto, mal) => {
+    const n = form.querySelector(".nota");
+    if (!n) return;
+    n.textContent = texto;
+    n.classList.toggle("nota--mal", !!mal);
+  };
+
+  const listo = (form, nombre) => {
+    form.querySelector(".campos").hidden = true;
+    form.querySelector(".linea__pie").hidden = true;
+    const ok = form.querySelector(".linea__ok");
+    ok.querySelector("p").textContent = (nombre ? nombre.split(" ")[0] + ", r" : "R") +
+      "ecibimos sus datos. Nos ponemos en contacto para coordinar la visita al lugar.";
+    ok.hidden = false;
+    ok.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  };
+
+  const enviar = async form => {
+    if (!revisar(form)) return;
+    const boton = form.querySelector('button[type="submit"]');
+    const d = datosDe(form);
+
+    if (!DATOS.envio.url) {
+      nota(form, "El envío todavía no está conectado, así que estos datos no llegarían a nadie. Falta configurarlo en la página.", true);
+      return;
+    }
+
+    const antes = boton.innerHTML;
+    boton.setAttribute("aria-busy", "true");
+    boton.textContent = "Enviando…";
+    nota(form, "Enviando sus datos…", false);
+
+    const cuerpo = JSON.stringify(Object.assign({}, DATOS.envio.extra, d, {
+      Origen: form.dataset.origen || "Sitio web"
+    }));
+    const opciones = {
+      method: "POST",
+      headers: { "Content-Type": DATOS.envio.contentType || "text/plain;charset=utf-8" },
+      body: cuerpo,
+      redirect: "follow"
+    };
+
+    try {
+      if (DATOS.envio.modo === "opaco") {
+        // Sin poder leer la respuesta: se manda y se da por recibido.
+        opciones.mode = "no-cors";
+        await fetch(DATOS.envio.url, opciones);
+      } else {
+        const r = await fetch(DATOS.envio.url, opciones);
+        if (!r.ok) throw new Error("respuesta " + r.status);
+        let cuerpoResp = null;
+        try { cuerpoResp = await r.json(); } catch (err) { /* respuesta no legible */ }
+        if (cuerpoResp && cuerpoResp.ok === false) {
+          throw new Error(cuerpoResp.error || "la planilla rechazó el envío");
+        }
+      }
+      listo(form, d["Nombre"]);
+    } catch (e) {
+      boton.innerHTML = antes;
+      boton.removeAttribute("aria-busy");
+      const alternativa = DATOS.telefono
+        ? " Puede llamarnos al " + DATOS.telefono + "."
+        : "";
+      nota(form, "No se pudieron enviar sus datos. Revise la conexión e intente de nuevo." + alternativa, true);
+    }
+  };
+
+  document.querySelectorAll("form").forEach(form => {
+    form.addEventListener("submit", e => { e.preventDefault(); enviar(form); });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Lleva el ID de la planilla de Google: se queda local, no va al repositorio.
+planilla-google.gs
+
+.DS_Store
