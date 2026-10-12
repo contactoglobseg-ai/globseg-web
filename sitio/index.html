@@ -284,6 +284,15 @@ section{scroll-margin-top:84px}
 .paso h3{font-size:1.14rem;margin-top:12px}
 .paso p{margin-top:9px;font-size:.9rem;line-height:1.6;color:var(--sobre-tinta-2)}
 
+/* respaldo en terreno */
+.respaldo{max-width:62ch;margin-top:14px;color:var(--sobre-tinta-2);line-height:1.68;font-size:1rem}
+.respaldo b{color:var(--sobre-tinta);font-weight:600}
+.regiones{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:14px;
+  font-size:.82rem;color:var(--sobre-tinta-2)}
+.regiones li{list-style:none;display:flex;align-items:center;gap:7px}
+.regiones li::before{content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--verde);flex:none}
+
 /* sectores */
 .sectores{display:flex;flex-wrap:wrap;gap:9px;margin-top:0}
 .sectores li{list-style:none;font-size:.9rem;font-weight:500;
@@ -614,10 +623,18 @@ section{scroll-margin-top:84px}
   <!-- SECTORES -->
   <section class="sec" style="padding-block:0 clamp(56px,8vw,104px)">
     <div class="env">
-      <div class="sec__tit" style="border-bottom:0;padding-bottom:16px">
+      <div class="sec__tit" style="border-bottom:0;padding-bottom:16px;display:block">
         <h2 style="font-size:clamp(1.5rem,2.6vw,2rem)">Dónde trabajamos</h2>
+        <p class="respaldo">Hoy resguardamos <b>parques fotovoltaicos en cinco regiones</b>, desde
+          Calama hasta Los Ángeles: faenas aisladas, turnos de noche y rondas en vehículo donde no
+          hay nadie más alrededor. Ese mismo estándar es el que llega a una planta, una bodega o
+          una obra en la ciudad.</p>
+        <ul class="regiones">
+          <li>Antofagasta</li><li>Valparaíso</li><li>Metropolitana</li>
+          <li>O'Higgins</li><li>Biobío</li>
+        </ul>
       </div>
-      <ul class="sectores">
+      <ul class="sectores" style="margin-top:26px">
         <li>Plantas e industria</li>
         <li>Bodegas y centros de distribución</li>
         <li>Oficinas y edificios corporativos</li>
