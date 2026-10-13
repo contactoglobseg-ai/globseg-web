@@ -488,7 +488,7 @@ section{scroll-margin-top:84px}
       </span>
       <span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20V9l9-5 9 5v11"/><path d="M9 20v-6h6v6"/></svg>
-        Cobertura en <b class="pend" data-dato="zona">su zona</b>
+        Operación en cinco regiones
       </span>
     </div>
   </div>
@@ -666,11 +666,6 @@ section{scroll-margin-top:84px}
             <span class="pend" data-dato="email">contacto@...</span>
             <button class="copiar" type="button" data-copiar="email" hidden>Copiar</button>
           </div>
-          <div class="dato">
-            <b>Cobertura</b>
-            <span class="pend" data-dato="zona">Su zona</span>
-            <span></span>
-          </div>
         </div>
       </div>
 
@@ -765,30 +760,24 @@ section{scroll-margin-top:84px}
 /* ------------------------------------------------------------------
    CONFIGURACIÓN — rellenar aquí y la página se actualiza sola.
 
-   envio.url  : la dirección que entrega Google al publicar el Apps Script
-                de la planilla. Termina en /exec. Los pasos para obtenerla
-                están en COMO-CONECTAR-LA-PLANILLA.md
-   envio.modo : "leer" confirma la respuesta de Google antes de dar el
-                envío por bueno. Si el navegador bloquea esa lectura por
-                CORS, cambiar a "opaco": el dato se manda igual, pero la
-                página no puede confirmar que llegó.
-   envio.extra: campos fijos que se agregan a cada envío, si se necesitan.
+   Los contactos van al sistema de administración (adm.seggarridos.com) y
+   quedan guardados ahí, visibles en la pestaña "Contactos web". No dependen
+   de ningún servicio externo.
+
+   envio.modo : "leer" confirma la respuesta antes de dar el envío por bueno.
+                "opaco" lo manda sin poder confirmarlo.
 
    Mientras envio.url esté vacío, el formulario valida y avisa que el
    envío no está conectado, en vez de perder un contacto en silencio.
-
-   telefono / email: solo para quien prefiera llamar. Si los deja
-   vacíos, no se muestran como datos confirmados.
 ------------------------------------------------------------------ */
 const DATOS = {
-  telefono: "",                 // ej: "+56 2 2345 6789"
-  email: "",                    // ej: "contacto@seguridadgarridos.cl"
-  zona: "",                     // ej: "Región Metropolitana"
+  telefono: "+56 9 8988 7614",
+  email: "contacto.globseg@gmail.com",
   horario: "",                  // ej: "Lunes a viernes de 9 a 19 h"
   envio: {
-    url: "",                    // ej: "https://script.google.com/macros/s/AKfy.../exec"
-    modo: "leer",               // "leer" o "opaco"
-    contentType: "text/plain;charset=utf-8",
+    url: "https://adm.seggarridos.com/api/contacto",
+    modo: "leer",
+    contentType: "application/json",
     extra: {}
   }
 };
@@ -808,7 +797,6 @@ const DATOS = {
   };
   pon("telefono", DATOS.telefono);
   pon("email", DATOS.email);
-  pon("zona", DATOS.zona);
 
   if (DATOS.horario) {
     const nota = document.getElementById("f-largo-nota");
