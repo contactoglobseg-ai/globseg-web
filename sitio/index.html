@@ -3,14 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Seguridad Garridos</title>
-<meta name="description" content="Seguridad Garridos (GLOBSEG SPA): guardias de seguridad, rondas y vigilancia móvil, cámaras y alarmas, y seguridad para eventos. Cada turno queda escrito: hora, punto, novedad y firma.">
+<title>Empresa de seguridad: guardias, rondas y cámaras | Seguridad Garridos</title>
+<meta name="description" content="Empresa de seguridad privada en Chile. Guardias, rondas y vigilancia móvil, cámaras y alarmas, y seguridad para eventos, en plantas, bodegas, obras y parques fotovoltaicos. Cada turno queda escrito: hora, punto, novedad y firma. Cotización y visita al lugar sin costo.">
 <meta name="theme-color" content="#0A0031">
+<link rel="canonical" href="https://seggarridos.com/">
 <link rel="icon" href="assets/logo.png">
-<meta property="og:title" content="Seguridad Garridos">
-<meta property="og:description" content="Guardias, rondas y cámaras para plantas, bodegas y oficinas. Cada turno queda escrito.">
-<meta property="og:image" content="assets/logo.png">
+<meta property="og:title" content="Seguridad Garridos — guardias, rondas y cámaras">
+<meta property="og:description" content="Guardias, rondas y cámaras para plantas, bodegas, obras y parques fotovoltaicos. Cada turno queda escrito.">
+<meta property="og:image" content="https://seggarridos.com/assets/logo.png">
+<meta property="og:url" content="https://seggarridos.com/">
+<meta property="og:locale" content="es_CL">
+<meta property="og:site_name" content="Seguridad Garridos">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script>document.documentElement.className+=" js"</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Archivo:wght@400;500;600;700&display=swap">
@@ -339,6 +345,10 @@ section{scroll-margin-top:84px}
 .pie__in{display:flex;gap:26px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .pie__legal{font-size:.84rem;color:var(--sobre-tinta-2);line-height:1.6}
 .pie__legal b{color:var(--sobre-tinta);font-weight:600}
+.pie__legal a{color:var(--sobre-tinta);text-decoration:none;
+  border-bottom:1px solid var(--filete);transition:border-color .15s,color .15s}
+.pie__legal a:hover{color:var(--verde);border-bottom-color:var(--verde)}
+.pie__legal a.pend{color:var(--aviso)}
 
 /* teléfono */
 @media (max-width:600px){
@@ -357,11 +367,154 @@ section{scroll-margin-top:84px}
   .dato > .copiar{grid-column:2;justify-self:start}
 }
 
-/* el único momento de movimiento: la hoja al cargar */
+/* ---------- movimiento ----------
+   Dos clases de movimiento, y ninguna decorativa:
+   1. la hoja se dibuja al cargar (es el concepto de la página);
+   2. cada bloque entra al aparecer en pantalla, porque la página es larga y
+      el movimiento dice "aquí empieza otra cosa" mejor que una línea.
+   Todo se apaga con prefers-reduced-motion. Sin esa preferencia el estado
+   inicial nunca se aplica, así que con JS apagado igual se ve todo. */
 @media (prefers-reduced-motion:no-preference){
   .hoja__margen{animation:raya .8s cubic-bezier(.16,1,.3,1) both}
   .timbre{animation:timbre .7s .25s cubic-bezier(.16,1,.3,1) both}
+  .js .aparece{
+    opacity:0;transform:translateY(20px);
+    transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+    transition-delay:var(--demora,0ms);
+    will-change:opacity,transform;
+  }
+  .js .aparece.vista{opacity:1;transform:none;will-change:auto}
+  .js .hoja .reg-fila{
+    opacity:0;animation:escribir .5s cubic-bezier(.16,1,.3,1) forwards;
+    animation-delay:calc(.34s + var(--n,0) * .11s);
+  }
 }
+@keyframes escribir{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+
+/* ---------- cifras ---------- */
+.cifras{border-bottom:1px solid var(--filete);background:var(--tinta-prof)}
+.cifras__in{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--filete);border-inline:1px solid var(--filete);
+}
+@media (max-width:760px){.cifras__in{grid-template-columns:repeat(2,1fr)}}
+.cifra{background:var(--tinta-prof);padding:22px clamp(14px,2.4vw,24px) 24px}
+.cifra > b{
+  display:block;font-family:var(--display);font-weight:800;line-height:.9;
+  font-size:clamp(2.3rem,4.6vw,3.3rem);color:var(--verde);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.cifra > span{display:block;margin-top:9px;font-size:.84rem;line-height:1.45;color:var(--sobre-tinta-2)}
+.cifra > span b{color:var(--sobre-tinta);font-weight:600;display:block}
+
+/* ---------- lo que se pierde sin registro ---------- */
+.dolor{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--filete);
+  border:1px solid var(--filete);border-radius:3px;overflow:hidden}
+@media (max-width:860px){.dolor{grid-template-columns:1fr}}
+.dolor__c{background:var(--tinta);padding:26px 24px 28px;display:flex;flex-direction:column;gap:12px}
+.dolor__c > svg{width:26px;height:26px;color:var(--aviso);flex:none}
+.dolor__c h3{font-size:1.2rem}
+.dolor__c > p{font-size:.92rem;line-height:1.62;color:var(--sobre-tinta-2)}
+.dolor__c > .resp{
+  margin-top:auto;padding-top:14px;border-top:1px solid var(--filete);
+  font-size:.86rem;line-height:1.55;color:var(--sobre-tinta);
+}
+.dolor__c > .resp b{display:block;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--verde);margin-bottom:6px;font-weight:600}
+
+/* ---------- compromisos ---------- */
+.comp{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,4vw,56px);align-items:start}
+@media (max-width:900px){.comp{grid-template-columns:1fr}}
+.comp__lado p{color:var(--sobre-tinta-2);margin-top:16px;max-width:42ch;line-height:1.68}
+.lista{display:flex;flex-direction:column;gap:0;
+  border:1px solid var(--filete);border-radius:3px;background:var(--tinta-prof);overflow:hidden}
+.lista > li{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr);gap:13px;
+  align-items:start;padding:16px 18px;border-bottom:1px solid var(--filete)}
+.lista > li:last-child{border-bottom:0}
+.lista svg{width:19px;height:19px;color:var(--verde);flex:none;margin-top:3px;grid-row:1/3}
+.lista > li > b{grid-column:2;font-weight:600;font-size:.98rem}
+.lista > li > span{grid-column:2;display:block;margin-top:4px;font-size:.88rem;
+  line-height:1.58;color:var(--sobre-tinta-2)}
+.lista > li > b .pend{font-weight:600}
+
+/* ---------- preguntas frecuentes ---------- */
+.faq{border:1px solid var(--filete);border-radius:3px;overflow:hidden;background:var(--tinta-prof)}
+.faq > details{border-bottom:1px solid var(--filete)}
+.faq > details:last-child{border-bottom:0}
+.faq summary{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;
+  padding:18px 18px;cursor:pointer;list-style:none;
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:clamp(1rem,1.8vw,1.14rem);letter-spacing:.012em;line-height:1.15;
+  transition:background-color .15s,color .15s;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{background:rgba(242,240,255,.04)}
+.faq summary i{
+  display:block;width:20px;height:20px;position:relative;flex:none;
+  border:1px solid var(--filete);border-radius:2px;transition:border-color .15s;
+}
+.faq summary i::before,.faq summary i::after{
+  content:"";position:absolute;inset:50% 4px auto;height:1.5px;background:var(--verde);
+  transform:translateY(-50%);transition:transform .22s cubic-bezier(.16,1,.3,1);
+}
+.faq summary i::after{transform:translateY(-50%) rotate(90deg)}
+.faq details[open] summary{color:var(--verde)}
+.faq details[open] summary i{border-color:var(--verde)}
+.faq details[open] summary i::after{transform:translateY(-50%) rotate(0)}
+.faq__r{padding:0 18px 20px;max-width:72ch}
+.faq__r p{font-size:.95rem;line-height:1.68;color:var(--sobre-tinta-2)}
+.faq__r p + p{margin-top:10px}
+.faq__r b{color:var(--sobre-tinta);font-weight:600}
+@media (prefers-reduced-motion:no-preference){
+  .faq details[open] .faq__r{animation:abrir .3s cubic-bezier(.16,1,.3,1) both}
+}
+@keyframes abrir{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* ---------- botón flotante ----------
+   Aparece una vez que la portada (con su formulario) ya pasó, y se esconde
+   cuando el visitante llega al formulario de contacto: ahí estorbaría. */
+.flota{
+  position:fixed;z-index:50;right:clamp(14px,3vw,28px);
+  bottom:calc(clamp(14px,3vw,28px) + env(safe-area-inset-bottom,0px));
+  box-shadow:0 14px 34px -10px rgba(4,0,22,.85),0 10px 24px -12px rgba(0,232,138,.6);
+  opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;
+  transition:opacity .28s cubic-bezier(.16,1,.3,1),transform .28s cubic-bezier(.16,1,.3,1);
+}
+.flota.vista{opacity:1;transform:none;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.flota{transition:none}}
+
+/* la barra se achica al bajar: deja ver más página sin perder el acceso */
+.barra{transition:box-shadow .2s}
+.barra--baja{box-shadow:0 10px 26px -18px rgba(4,0,22,.9)}
+.barra--baja .barra__in{min-height:54px}
+@media (prefers-reduced-motion:no-preference){
+  .barra__in{transition:min-height .2s cubic-bezier(.16,1,.3,1)}
+}
+
+/* sectores: cada uno prellena el formulario, así que son botones */
+.sectores button{
+  font:500 .9rem/1 var(--cuerpo);color:var(--sobre-tinta);cursor:pointer;
+  padding:10px 15px;border-radius:2px;background:var(--tinta-prof);border:0;
+  box-shadow:inset 0 0 0 1px var(--filete);
+  transition:box-shadow .15s,transform .15s,color .15s;
+}
+.sectores button:hover{box-shadow:inset 0 0 0 1px var(--verde);transform:translateY(-2px)}
+.sectores li{padding:0;background:none;box-shadow:none}
+.sectores__rot{margin-top:26px;margin-bottom:12px;font-size:.7rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--sobre-tinta-2);font-weight:600}
+
+/* enlace para cotizar un servicio desde su propia fila */
+.reg__cot{
+  display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+  font:600 .82rem/1 var(--cuerpo);letter-spacing:.04em;text-transform:uppercase;
+  color:var(--verde);background:none;border:0;padding:0;cursor:pointer;
+}
+.reg__cot svg{width:15px;height:15px;transition:transform .18s cubic-bezier(.16,1,.3,1)}
+.reg__cot:hover svg{transform:translateX(4px)}
+
+/* el campo que acaba de recibir el foco desde un botón de la página */
+.campo--trae input,.campo--trae select{border-color:var(--verde);background:#1A0C55}
 @keyframes raya{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @keyframes timbre{
   from{transform:rotate(-16deg) scale(1.14);opacity:.25}
@@ -384,6 +537,7 @@ section{scroll-margin-top:84px}
       <a href="#servicios">Servicios</a>
       <a href="#expediente">Procedimientos</a>
       <a href="#pasos">Cómo partimos</a>
+      <a href="#preguntas">Preguntas</a>
       <a href="#contacto">Contacto</a>
     </nav>
     <a class="bt bt--pri" href="#contacto">
@@ -426,6 +580,8 @@ section{scroll-margin-top:84px}
                 <option>Bodega o centro de distribución</option>
                 <option>Oficina o edificio corporativo</option>
                 <option>Obra en construcción</option>
+                <option>Parque fotovoltaico o faena energética</option>
+                <option>Predio agrícola o forestal</option>
                 <option>Comercio o retail</option>
                 <option>Condominio o edificio</option>
                 <option>Evento</option>
@@ -456,11 +612,11 @@ section{scroll-margin-top:84px}
         </div>
         <div class="hoja__cuerpo">
           <i class="hoja__margen" aria-hidden="true"></i>
-          <div class="reg-fila"><span class="hora">22:00</span><p><b>Relevo de turno.</b> Recibe puesto portería norte. Linterna, radio y libro conformes.</p></div>
-          <div class="reg-fila"><span class="hora">22:40</span><p><b>Ronda 1 de 4.</b> Portón 3 y bodega de despacho cerrados. Sin novedad.</p></div>
-          <div class="reg-fila"><span class="hora">01:15</span><p><b>Ronda 2 de 4.</b> Luminaria del patio norte apagada. Informado al jefe de planta.</p></div>
-          <div class="reg-fila"><span class="hora">03:30</span><p><b>Ronda 3 de 4.</b> Camión en playa de estacionamiento fuera de horario. Patente registrada.</p></div>
-          <div class="reg-fila"><span class="hora">06:00</span><p><b>Ronda 4 de 4.</b> Sin novedad. Entrega de turno al relevo del día.</p></div>
+          <div class="reg-fila" style="--n:0"><span class="hora">22:00</span><p><b>Relevo de turno.</b> Recibe puesto portería norte. Linterna, radio y libro conformes.</p></div>
+          <div class="reg-fila" style="--n:1"><span class="hora">22:40</span><p><b>Ronda 1 de 4.</b> Portón 3 y bodega de despacho cerrados. Sin novedad.</p></div>
+          <div class="reg-fila" style="--n:2"><span class="hora">01:15</span><p><b>Ronda 2 de 4.</b> Luminaria del patio norte apagada. Informado al jefe de planta.</p></div>
+          <div class="reg-fila" style="--n:3"><span class="hora">03:30</span><p><b>Ronda 3 de 4.</b> Camión en playa de estacionamiento fuera de horario. Patente registrada.</p></div>
+          <div class="reg-fila" style="--n:4"><span class="hora">06:00</span><p><b>Ronda 4 de 4.</b> Sin novedad. Entrega de turno al relevo del día.</p></div>
         </div>
         <div class="hoja__pie">
           <span>Entrega de puesto</span>
@@ -493,16 +649,59 @@ section{scroll-margin-top:84px}
     </div>
   </div>
 
+  <!-- CIFRAS — solo números que la empresa puede probar hoy -->
+  <div class="cifras">
+    <div class="env cifras__in">
+      <div class="cifra aparece"><b data-contar="5">5</b><span><b>Regiones</b>De Antofagasta a Biobío</span></div>
+      <div class="cifra aparece" style="--demora:80ms"><b data-contar="5">5</b><span><b>Parques fotovoltaicos</b>Resguardados hoy, turno a turno</span></div>
+      <div class="cifra aparece" style="--demora:160ms"><b data-contar="7">7</b><span><b>Procedimientos vigentes</b>Firmados antes de tomar el puesto</span></div>
+      <div class="cifra aparece" style="--demora:240ms"><b>24/7</b><span><b>Cobertura de turnos</b>Diurno, nocturno y fin de semana</span></div>
+    </div>
+  </div>
+
+  <!-- LO QUE SE PIERDE -->
+  <section class="sec" id="problema" style="padding-bottom:clamp(40px,5vw,64px)">
+    <div class="env">
+      <div class="sec__tit aparece">
+        <h2>Lo que se pierde cuando el turno no queda escrito</h2>
+        <p>Tres cosas que pasan seguido, y lo que hacemos para que no pasen acá.</p>
+      </div>
+
+      <div class="dolor" style="margin-top:28px">
+        <div class="dolor__c aparece">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.4v5.1l3.2 1.9"/></svg>
+          <h3>Pasó algo y nadie sabe a qué hora</h3>
+          <p>El faltante se descubre dos días después. Nadie anotó cuándo entró el camión, la grabación ya se sobrescribió y no hay un papel que entregarle al seguro ni a Carabineros.</p>
+          <p class="resp"><b>Acá</b>Cada ronda queda con su hora y su punto en el libro de novedades del turno, y usted lo recibe.</p>
+        </div>
+
+        <div class="dolor__c aparece" style="--demora:90ms">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.8a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.2V20"/><circle cx="9.5" cy="7.6" r="3.3"/><path d="M17 11.2 19 13.2l3.2-3.4"/></svg>
+          <h3>Cambia el guardia y se pierde lo que sabía</h3>
+          <p>El que llega no sabe qué portón queda abierto hasta las once, a qué hora pasa el camión de despacho ni a quién llamar si suena la alarma. Lo aprende equivocándose.</p>
+          <p class="resp"><b>Acá</b>Las consignas del puesto están escritas antes de que llegue el primer guardia, y la entrega de turno la firma quien recibe.</p>
+        </div>
+
+        <div class="dolor__c aparece" style="--demora:180ms">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9.3 12.6h5.4M9.3 16.2h3.2"/></svg>
+          <h3>Paga el mes y no sabe qué se hizo</h3>
+          <p>La factura llega igual, haya habido cuatro rondas en la noche o ninguna. Sin registro no hay forma de saberlo, y tampoco de reclamarlo.</p>
+          <p class="resp"><b>Acá</b>Usted recibe el registro del turno, no solo el cobro. Si una ronda no se hizo, se ve.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- SERVICIOS -->
   <section class="sec" id="servicios">
     <div class="env">
-      <div class="sec__tit">
+      <div class="sec__tit aparece">
         <h2>Lo que tomamos</h2>
         <p>Cuatro servicios. En todos, lo que pasa en el turno queda registrado y se le entrega.</p>
       </div>
 
       <div class="registros">
-        <article class="reg reg--lead">
+        <article class="reg reg--lead aparece">
           <div class="reg__con">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M16 11h4v10"/><circle cx="10" cy="8.5" r="2.1"/><path d="M6.6 16.2a3.6 3.6 0 0 1 6.8 0"/></svg>
             Dotación
@@ -510,6 +709,9 @@ section{scroll-margin-top:84px}
           <div>
             <h3>Guardias de seguridad</h3>
             <p class="reg__txt">Guardias uniformados en planta, bodega, oficina, obra, comercio y condominio. Control de acceso y portería, registro de visitas y de vehículos, recorrido de puntos críticos y entrega de puesto al relevo. Turnos diurnos, nocturnos y 24/7.</p>
+            <button class="reg__cot" type="button" data-cotizar="Guardias de seguridad">
+              Cotizar este servicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15"/><path d="m13.4 6.2 6 5.8-6 5.8"/></svg>
+            </button>
           </div>
           <div class="reg__esc">
             <b>Queda escrito</b>
@@ -517,7 +719,7 @@ section{scroll-margin-top:84px}
           </div>
         </article>
 
-        <article class="reg">
+        <article class="reg aparece">
           <div class="reg__con">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6.5" r="2.4"/><circle cx="18" cy="17.5" r="2.4"/><path d="M8.4 6.5h5.1a3.5 3.5 0 0 1 0 7H9.9a3.5 3.5 0 0 0 0 7h5.7"/></svg>
             Móvil
@@ -525,6 +727,9 @@ section{scroll-margin-top:84px}
           <div>
             <h3>Rondas y vigilancia móvil</h3>
             <p class="reg__txt">Patrullaje en vehículo con rondas programadas y aleatorias, verificación de puntos críticos y supervisión nocturna. Útil cuando no se justifica un guardia fijo las 24 horas.</p>
+            <button class="reg__cot" type="button" data-cotizar="Rondas y vigilancia móvil">
+              Cotizar este servicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15"/><path d="m13.4 6.2 6 5.8-6 5.8"/></svg>
+            </button>
           </div>
           <div class="reg__esc">
             <b>Queda escrito</b>
@@ -532,7 +737,7 @@ section{scroll-margin-top:84px}
           </div>
         </article>
 
-        <article class="reg">
+        <article class="reg aparece">
           <div class="reg__con">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5l13-2.5 1.2 5.2-13 2.5z"/><path d="M17.3 8.2L21 7v6l-3.7-1.2"/><path d="M7 13v3.5a2 2 0 0 1-2 2H4.5"/><circle cx="9.6" cy="9" r="1.1"/></svg>
             Tecnología
@@ -540,6 +745,9 @@ section{scroll-margin-top:84px}
           <div>
             <h3>Cámaras y alarmas</h3>
             <p class="reg__txt">CCTV, alarmas y sensores: instalación, mantención y revisión de grabaciones cuando ocurre un evento. Se puede combinar con guardia o con rondas para cubrir lo que la cámara no alcanza.</p>
+            <button class="reg__cot" type="button" data-cotizar="Cámaras y alarmas">
+              Cotizar este servicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15"/><path d="m13.4 6.2 6 5.8-6 5.8"/></svg>
+            </button>
           </div>
           <div class="reg__esc">
             <b>Queda escrito</b>
@@ -547,7 +755,7 @@ section{scroll-margin-top:84px}
           </div>
         </article>
 
-        <article class="reg">
+        <article class="reg aparece">
           <div class="reg__con">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.2V6.5h18v2.7a2.2 2.2 0 0 0 0 4.4v4.9H3v-4.9a2.2 2.2 0 0 0 0-4.4Z"/><path d="M12 6.5v11"/></svg>
             Eventos
@@ -555,6 +763,9 @@ section{scroll-margin-top:84px}
           <div>
             <h3>Seguridad para eventos</h3>
             <p class="reg__txt">Dotación por horas para eventos masivos y privados: control de acceso, acreditación, orden de público y resguardo de escenario, camarines y bodegas. Coordinamos con la productora antes del día.</p>
+            <button class="reg__cot" type="button" data-cotizar="Seguridad para eventos">
+              Cotizar este servicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15"/><path d="m13.4 6.2 6 5.8-6 5.8"/></svg>
+            </button>
           </div>
           <div class="reg__esc">
             <b>Queda escrito</b>
@@ -568,11 +779,11 @@ section{scroll-margin-top:84px}
   <!-- EXPEDIENTE -->
   <section class="sec" id="expediente" style="background:var(--tinta-prof);border-block:1px solid var(--filete)">
     <div class="env exp">
-      <div class="exp__lado">
+      <div class="exp__lado aparece">
         <h2>El procedimiento no se improvisa en terreno</h2>
         <p>Antes de que un guardia llegue a su instalación, ya existe por escrito qué hace en una emergencia, cómo patrulla y qué elementos de protección recibe. El personal lo recibe firmado, y usted puede pedir la carpeta.</p>
       </div>
-      <div class="carpeta">
+      <div class="carpeta aparece" style="--demora:120ms">
         <div class="carpeta__tit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.4h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
           Documentos vigentes
@@ -591,11 +802,11 @@ section{scroll-margin-top:84px}
   <!-- PASOS -->
   <section class="sec" id="pasos">
     <div class="env">
-      <div class="sec__tit">
+      <div class="sec__tit aparece">
         <h2>Cómo partimos</h2>
         <p>Cuatro pasos, en este orden. Del primer contacto al guardia en el puesto.</p>
       </div>
-      <div class="pasos">
+      <div class="pasos aparece">
         <div class="paso">
           <b>1</b>
           <h3>Visita al lugar</h3>
@@ -634,16 +845,106 @@ section{scroll-margin-top:84px}
           <li>O'Higgins</li><li>Biobío</li>
         </ul>
       </div>
-      <ul class="sectores" style="margin-top:26px">
-        <li>Plantas e industria</li>
-        <li>Bodegas y centros de distribución</li>
-        <li>Oficinas y edificios corporativos</li>
-        <li>Obras y construcción</li>
-        <li>Retail y comercio</li>
-        <li>Condominios y edificios</li>
-        <li>Agrícola y forestal</li>
-        <li>Eventos y productoras</li>
+      <p class="sectores__rot">Elija el suyo y le llenamos el formulario</p>
+      <ul class="sectores aparece">
+        <li><button type="button" data-lugar="Planta o industria">Plantas e industria</button></li>
+        <li><button type="button" data-lugar="Bodega o centro de distribución">Bodegas y centros de distribución</button></li>
+        <li><button type="button" data-lugar="Parque fotovoltaico o faena energética">Parques fotovoltaicos y energía</button></li>
+        <li><button type="button" data-lugar="Oficina o edificio corporativo">Oficinas y edificios corporativos</button></li>
+        <li><button type="button" data-lugar="Obra en construcción">Obras y construcción</button></li>
+        <li><button type="button" data-lugar="Comercio o retail">Retail y comercio</button></li>
+        <li><button type="button" data-lugar="Condominio o edificio">Condominios y edificios</button></li>
+        <li><button type="button" data-lugar="Predio agrícola o forestal">Agrícola y forestal</button></li>
+        <li><button type="button" data-lugar="Evento">Eventos y productoras</button></li>
       </ul>
+    </div>
+  </section>
+
+  <!-- COMPROMISOS -->
+  <section class="sec" id="compromisos" style="background:var(--tinta-prof);border-block:1px solid var(--filete)">
+    <div class="env comp">
+      <div class="comp__lado aparece">
+        <h2>A qué nos comprometemos antes de empezar</h2>
+        <p>No hay letra chica que descubrir en el segundo mes. Esto es lo que queda dicho por
+          escrito antes de que el primer guardia tome el puesto, y usted lo tiene en la mano
+          para compararlo con lo que efectivamente pasa.</p>
+      </div>
+      <ul class="lista aparece" style="--demora:120ms">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.8 12.4 4.6 4.6L19.2 7.2"/></svg><b>La visita al lugar no tiene costo ni compromiso</b><span>Recorremos accesos, puntos ciegos y horarios críticos. Si después no toma el servicio, no debe nada.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.8 12.4 4.6 4.6L19.2 7.2"/></svg><b>El precio por turno queda por escrito antes de firmar</b><span>Cuántos puestos, qué turnos y qué hace el guardia en cada uno, con su valor. No se cotiza por teléfono y a ojo.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.8 12.4 4.6 4.6L19.2 7.2"/></svg><b>Los procedimientos existen antes del primer turno</b><span>MIPER, procedimientos de trabajo seguro, procedimiento ante emergencias, RIOHS y entrega de EPP, todos con recepción firmada por el personal. Puede pedir la carpeta.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.8 12.4 4.6 4.6L19.2 7.2"/></svg><b>Un encargado con nombre para su instalación</b><span>No una central que no sabe de qué puesto habla. Supervisión en terreno y un canal directo.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.8 12.4 4.6 4.6L19.2 7.2"/></svg><b>El registro del turno se le entrega a usted</b><span>Libro de novedades con hora, punto y novedad; registro de ingreso de personas y vehículos; entrega de puesto firmada por quien recibe.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.8 12.4 4.6 4.6L19.2 7.2"/></svg><b>Personal con credencial <span class="pend">OS-10</span></b><span>La acreditación que exige Carabineros de Chile para ejercer como vigilante o guardia de seguridad privada.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PREGUNTAS FRECUENTES -->
+  <section class="sec" id="preguntas">
+    <div class="env">
+      <div class="sec__tit aparece">
+        <h2>Preguntas frecuentes</h2>
+        <p>Lo que nos preguntan antes de contratar. Si falta la suya, escríbala en el formulario.</p>
+      </div>
+
+      <div class="faq aparece" style="margin-top:28px">
+        <details>
+          <summary>¿Cuánto cuesta el servicio de guardias? <i aria-hidden="true"></i></summary>
+          <div class="faq__r">
+            <p>Depende de tres cosas: cuántos puestos hay que cubrir, qué turnos (diurno, nocturno o 24/7) y qué tan lejos queda la instalación. No hay una tarifa única que sirva para una bodega en la ciudad y para un parque fotovoltaico en el desierto.</p>
+            <p>Por eso primero vamos a ver el lugar, <b>sin costo</b>, y recién después le entregamos el precio por turno por escrito. Buena parte de nuestros servicios se cotiza en <b>parejas de guardias</b>, que es lo que permite cubrir rondas y puesto fijo al mismo tiempo.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Dónde trabajan? <i aria-hidden="true"></i></summary>
+          <div class="faq__r">
+            <p>Hoy operamos en <b>cinco regiones</b>: Antofagasta, Valparaíso, Metropolitana, O'Higgins y Biobío. Entre ellas, parques fotovoltaicos en Calama, Puchuncaví, Paine, Rengo y Los Ángeles.</p>
+            <p>Si su instalación queda fuera de esas regiones, déjenos sus datos igual: hemos tomado faenas aisladas antes y le decimos derechamente si podemos o no.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Qué recibo además del guardia en la puerta? <i aria-hidden="true"></i></summary>
+          <div class="faq__r">
+            <p>El registro de lo que pasó. En concreto: <b>libro de novedades por turno</b> con hora, punto y novedad; registro de ingreso de personas y de vehículos; y entrega de puesto firmada por quien recibe el turno.</p>
+            <p>Si hubo un evento con cámaras de por medio, el informe lleva la hora y el respaldo del video, que es lo que sirve ante el seguro o ante una denuncia.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Hacen turnos de noche, fines de semana y 24/7? <i aria-hidden="true"></i></summary>
+          <div class="faq__r">
+            <p>Sí. Diurno, nocturno, 24/7, fin de semana y por horas. Buena parte de lo que resguardamos hoy son faenas aisladas con turno de noche, donde no hay nadie más alrededor.</p>
+            <p>Si no se justifica un guardia fijo las 24 horas, la alternativa suele ser <b>rondas en vehículo</b> con horarios programados y aleatorios, que cuesta menos y queda igualmente registrado.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Puedo contratar solo cámaras, o solo un evento? <i aria-hidden="true"></i></summary>
+          <div class="faq__r">
+            <p>Sí a las dos. CCTV y alarmas se pueden tomar por separado, con instalación, mantención y revisión de grabaciones cuando ocurre algo.</p>
+            <p>Y para eventos trabajamos con <b>dotación por horas</b>: control de acceso, acreditación, orden de público y resguardo de escenario, camarines y bodegas, coordinado con la productora antes del día.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Qué pasa si un guardia falta o rota? <i aria-hidden="true"></i></summary>
+          <div class="faq__r">
+            <p>Las consignas del puesto están escritas y no viven en la cabeza del guardia que estaba, así que el que llega sabe qué hacer desde el primer turno. La supervisión en terreno y el encargado de su instalación son los mismos.</p>
+            <p>El compromiso de reemplazo ante una ausencia <span class="pend">está por confirmar</span> y preferimos no prometerlo acá hasta poder cumplirlo por escrito. Pregúntelo en la visita y se lo respondemos de frente.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Cómo sigue después de que dejo mis datos? <i aria-hidden="true"></i></summary>
+          <div class="faq__r">
+            <p>Lo llamamos al teléfono que nos deje para coordinar la visita al lugar. En esa visita recorremos accesos, puntos ciegos y horarios críticos, y de ahí sale la propuesta con dotación, turnos y precio.</p>
+            <p>El horario de atención <span class="pend">está por definir</span> en esta página. Si prefiere llamar usted, el teléfono y el correo están más abajo.</p>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -695,6 +996,23 @@ section{scroll-margin-top:84px}
             <em hidden>Escriba la comuna.</em>
           </label>
           <label class="campo">
+            <span>Qué hay que cuidar</span>
+            <select name="lugar" required>
+              <option value="">Elija una opción</option>
+              <option>Planta o industria</option>
+              <option>Bodega o centro de distribución</option>
+              <option>Oficina o edificio corporativo</option>
+              <option>Obra en construcción</option>
+              <option>Parque fotovoltaico o faena energética</option>
+              <option>Predio agrícola o forestal</option>
+              <option>Comercio o retail</option>
+              <option>Condominio o edificio</option>
+              <option>Evento</option>
+              <option>Otro</option>
+            </select>
+            <em hidden>Elija qué hay que cuidar.</em>
+          </label>
+          <label class="campo">
             <span>Servicio</span>
             <select name="servicio" required>
               <option value="">Elija una opción</option>
@@ -740,6 +1058,11 @@ section{scroll-margin-top:84px}
   </section>
 </main>
 
+<a class="bt bt--pri flota" id="flota" href="#contacto">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.8 20 4l-7.2 16-1.9-6.1Z"/><path d="M10.9 13.9 20 4"/></svg>
+  Dejar mis datos
+</a>
+
 <footer class="pie">
   <div class="env pie__in">
     <a class="marca" href="#" style="margin-right:0">
@@ -751,7 +1074,9 @@ section{scroll-margin-top:84px}
     </a>
     <p class="pie__legal">
       <b>GLOBSEG SPA</b> · RUT 78.095.104-4<br>
-      Seguridad privada: guardias, rondas, cámaras y eventos.
+      Seguridad privada: guardias, rondas, cámaras y eventos.<br>
+      <a href="#" data-enlace="telefono" class="pend">+56 ...</a> ·
+      <a href="#" data-enlace="email" class="pend">contacto@...</a>
     </p>
   </div>
 </footer>
@@ -797,6 +1122,21 @@ const DATOS = {
   };
   pon("telefono", DATOS.telefono);
   pon("email", DATOS.email);
+
+  // El pie los muestra como enlaces: en el teléfono, tocarlos llama o escribe.
+  const enlaces = {
+    telefono: v => "tel:" + v.replace(/[^+\d]/g, ""),
+    email: v => "mailto:" + v
+  };
+  Object.keys(enlaces).forEach(clave => {
+    const valor = DATOS[clave];
+    document.querySelectorAll('[data-enlace="' + clave + '"]').forEach(el => {
+      if (!valor) return;
+      el.textContent = valor;
+      el.href = enlaces[clave](valor);
+      el.classList.remove("pend");
+    });
+  });
 
   if (DATOS.horario) {
     const nota = document.getElementById("f-largo-nota");
@@ -950,7 +1290,245 @@ const DATOS = {
   document.querySelectorAll("form").forEach(form => {
     form.addEventListener("submit", e => { e.preventDefault(); enviar(form); });
   });
+
+  // ------------------------------------------------------------------
+  // 5. Movimiento
+  //    La página es larga. El movimiento no decora: avisa dónde empieza
+  //    cada bloque. Si el visitante pidió menos movimiento, nada de esto
+  //    corre y la página se ve completa de inmediato.
+  //
+  //    Se revisa en cada scroll con getBoundingClientRect y no con
+  //    IntersectionObserver: el observador se saltaba bloques enteros
+  //    cuando alguien baja de un tirón (o aprieta Fin), y un bloque que
+  //    nunca se revela es texto que el visitante no lee nunca. Acá, todo
+  //    lo que ya quedó arriba de la línea se muestra sí o sí.
+  // ------------------------------------------------------------------
+  const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let bloques = Array.from(document.querySelectorAll(".aparece"));
+  let cifras = Array.from(document.querySelectorAll("[data-contar]"));
+
+  // Las cifras cuentan hacia arriba al aparecer. Son pocas y chicas, así que
+  // la cuenta dura menos de un segundo: no es un espectáculo, es un gesto.
+  const contar = el => {
+    const fin = parseInt(el.dataset.contar, 10);
+    if (!isFinite(fin)) { return; }
+    const dura = 700, parte = performance.now();
+    const paso = ahora => {
+      const t = Math.min(1, (ahora - parte) / dura);
+      el.textContent = Math.round(fin * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+  };
+
+  if (quieto) {
+    bloques.forEach(el => el.classList.add("vista"));
+    bloques = [];
+    cifras = [];
+  } else {
+    cifras.forEach(el => { el.textContent = "0"; });
+  }
+
+  const barra = document.querySelector(".barra");
+
+  const repasar = () => {
+    const linea = window.innerHeight * .9;   // donde se considera "ya entró"
+    bloques = bloques.filter(el => {
+      if (el.getBoundingClientRect().top > linea) return true;
+      el.classList.add("vista");
+      return false;
+    });
+    cifras = cifras.filter(el => {
+      const c = el.getBoundingClientRect();
+      if (c.top > window.innerHeight * .85) return true;
+      contar(el);
+      return false;
+    });
+    // La barra se achica al bajar: es fija y ocupaba demasiado alto.
+    if (barra) barra.classList.toggle("barra--baja", window.scrollY > 90);
+  };
+
+  let pedido = false;
+  const alMover = () => {
+    if (pedido) return;
+    pedido = true;
+    requestAnimationFrame(() => { pedido = false; repasar(); });
+  };
+  window.addEventListener("scroll", alMover, { passive: true });
+  window.addEventListener("resize", alMover, { passive: true });
+  repasar();
+  // Una pasada más cuando terminan de cargar las tipografías: cambian las
+  // alturas y un bloque que estaba justo en el borde puede haberse movido.
+  window.addEventListener("load", repasar);
+
+  // ------------------------------------------------------------------
+  // 6. El botón flotante
+  //    Aparece cuando el formulario de la portada ya quedó atrás y se va
+  //    cuando el de contacto está en pantalla, donde solo estorbaría.
+  // ------------------------------------------------------------------
+  const flota = document.getElementById("flota");
+  const arriba = document.getElementById("f-rapido");
+  const abajo = document.getElementById("contacto");
+
+  if (flota && "IntersectionObserver" in window) {
+    const estado = { arriba: true, abajo: false };
+    const pintar = () => flota.classList.toggle("vista", !estado.arriba && !estado.abajo);
+    const vigilar = (el, clave) => {
+      if (!el) return;
+      new IntersectionObserver(filas => {
+        filas.forEach(f => { estado[clave] = f.isIntersecting; });
+        pintar();
+      }, { threshold: 0 }).observe(el);
+    };
+    vigilar(arriba, "arriba");
+    vigilar(abajo, "abajo");
+  }
+
+  // ------------------------------------------------------------------
+  // 7. Los botones de la página llenan el formulario
+  //    "Cotizar este servicio" y los sectores bajan al formulario con la
+  //    respuesta ya puesta. El visitante que se decidió arriba no tiene que
+  //    volver a elegir abajo lo mismo que acaba de elegir.
+  // ------------------------------------------------------------------
+  const largo = document.getElementById("f-largo");
+
+  const poner = (nombre, valor) => {
+    if (!largo || !valor) return null;
+    const control = largo.querySelector('[name="' + nombre + '"]');
+    if (!control) return null;
+    // Solo se acepta un valor que exista en el desplegable: si alguien
+    // renombra una opción, el botón no deja el campo en un estado imposible.
+    const existe = Array.from(control.options || []).some(o => o.value === valor || o.text === valor);
+    if (control.options && !existe) return null;
+    control.value = valor;
+    control.dispatchEvent(new Event("input", { bubbles: true }));
+    const campo = control.closest(".campo");
+    if (campo) {
+      campo.classList.remove("campo--mal");
+      campo.classList.add("campo--trae");
+      setTimeout(() => campo.classList.remove("campo--trae"), 2200);
+    }
+    return control;
+  };
+
+  document.querySelectorAll("[data-cotizar],[data-lugar]").forEach(bt => {
+    bt.addEventListener("click", () => {
+      // Si ya mandaron el formulario, los campos están ocultos: solo se baja.
+      const enviado = largo && largo.querySelector(".linea__ok") &&
+                      !largo.querySelector(".linea__ok").hidden;
+      if (!enviado) {
+        poner("servicio", bt.dataset.cotizar);
+        poner("lugar", bt.dataset.lugar);
+      }
+      const destino = document.getElementById("contacto");
+      if (destino) {
+        destino.scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
+      }
+      // El foco va al primer campo vacío, que es donde toca seguir escribiendo.
+      if (!enviado && largo) {
+        const vacio = Array.from(largo.querySelectorAll("input,select,textarea"))
+          .find(c => c.required && !c.value.trim());
+        if (vacio) setTimeout(() => vacio.focus({ preventScroll: true }), quieto ? 0 : 520);
+      }
+    });
+  });
+
+  // ------------------------------------------------------------------
+  // 8. Preguntas: una abierta a la vez.
+  //    Con varias abiertas la lista se vuelve un muro y se pierde el índice.
+  // ------------------------------------------------------------------
+  const preguntas = document.querySelectorAll(".faq > details");
+  preguntas.forEach(d => {
+    d.addEventListener("toggle", () => {
+      if (!d.open) return;
+      preguntas.forEach(otra => { if (otra !== d) otra.open = false; });
+    });
+  });
 })();
+</script>
+<!-- Datos estructurados para Google. Si cambia el teléfono o el correo en el
+     objeto DATOS de arriba, hay que cambiarlos también acá: los buscadores no
+     ejecutan ese script antes de leer esto.
+     Las preguntas de abajo son las mismas que están visibles en #preguntas;
+     si se edita una, se edita en los dos lados o Google descarta el bloque. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["LocalBusiness", "SecurityService"],
+      "@id": "https://seggarridos.com/#empresa",
+      "name": "Seguridad Garridos",
+      "legalName": "GLOBSEG SPA",
+      "alternateName": "GLOBSEG",
+      "taxID": "78.095.104-4",
+      "url": "https://seggarridos.com/",
+      "logo": "https://seggarridos.com/assets/logo.png",
+      "image": "https://seggarridos.com/assets/logo.png",
+      "telephone": "+56989887614",
+      "email": "contacto.globseg@gmail.com",
+      "description": "Empresa de seguridad privada en Chile: guardias de seguridad, rondas y vigilancia móvil, cámaras y alarmas, y seguridad para eventos. Cada turno queda registrado con hora, punto, novedad y firma.",
+      "address": { "@type": "PostalAddress", "addressCountry": "CL" },
+      "areaServed": [
+        { "@type": "State", "name": "Región de Antofagasta" },
+        { "@type": "State", "name": "Región de Valparaíso" },
+        { "@type": "State", "name": "Región Metropolitana de Santiago" },
+        { "@type": "State", "name": "Región del Libertador General Bernardo O'Higgins" },
+        { "@type": "State", "name": "Región del Biobío" }
+      ],
+      "knowsLanguage": "es-CL",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de seguridad",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Guardias de seguridad", "description": "Guardias uniformados en planta, bodega, oficina, obra, comercio y condominio, con control de acceso, registro de visitas y entrega de puesto firmada." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rondas y vigilancia móvil", "description": "Patrullaje en vehículo con rondas programadas y aleatorias, verificación de puntos críticos y supervisión nocturna." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cámaras y alarmas", "description": "CCTV, alarmas y sensores: instalación, mantención y revisión de grabaciones cuando ocurre un evento." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguridad para eventos", "description": "Dotación por horas para eventos masivos y privados: control de acceso, acreditación, orden de público y resguardo de escenario." } }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://seggarridos.com/#sitio",
+      "url": "https://seggarridos.com/",
+      "name": "Seguridad Garridos",
+      "inLanguage": "es-CL",
+      "publisher": { "@id": "https://seggarridos.com/#empresa" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://seggarridos.com/#preguntas",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cuánto cuesta el servicio de guardias?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Depende de cuántos puestos hay que cubrir, qué turnos (diurno, nocturno o 24/7) y qué tan lejos queda la instalación. Primero vamos a ver el lugar, sin costo, y recién después entregamos el precio por turno por escrito. Buena parte de los servicios se cotiza en parejas de guardias, que es lo que permite cubrir rondas y puesto fijo al mismo tiempo." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Dónde trabajan?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Hoy operamos en cinco regiones: Antofagasta, Valparaíso, Metropolitana, O'Higgins y Biobío. Entre ellas, parques fotovoltaicos en Calama, Puchuncaví, Paine, Rengo y Los Ángeles. Si su instalación queda fuera de esas regiones, déjenos sus datos igual y le decimos derechamente si podemos o no." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué recibo además del guardia en la puerta?",
+          "acceptedAnswer": { "@type": "Answer", "text": "El registro de lo que pasó: libro de novedades por turno con hora, punto y novedad; registro de ingreso de personas y de vehículos; y entrega de puesto firmada por quien recibe el turno. Si hubo un evento con cámaras de por medio, el informe lleva la hora y el respaldo del video." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Hacen turnos de noche, fines de semana y 24/7?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sí: diurno, nocturno, 24/7, fin de semana y por horas. Si no se justifica un guardia fijo las 24 horas, la alternativa suele ser rondas en vehículo con horarios programados y aleatorios, que cuesta menos y queda igualmente registrado." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo contratar solo cámaras, o solo un evento?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sí a las dos. CCTV y alarmas se pueden tomar por separado, con instalación, mantención y revisión de grabaciones. Para eventos trabajamos con dotación por horas: control de acceso, acreditación, orden de público y resguardo de escenario, camarines y bodegas." }
+        }
+      ]
+    }
+  ]
+}
 </script>
 </body>
 </html>

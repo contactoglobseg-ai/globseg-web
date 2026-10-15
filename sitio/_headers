@@ -1,5 +1,8 @@
 # Cabeceras que aplica Cloudflare Pages a todo el sitio.
 /*
+  # Un año por https. El navegador deja de intentar en claro, así que la
+  # contraseña del panel y la cookie de sesión no pueden viajar a la vista.
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
