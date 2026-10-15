@@ -1,7 +1,12 @@
 # Cabeceras que aplica Cloudflare Pages a todo el sitio.
+#
+# Los comentarios van al margen, nunca indentados dentro de una regla: una
+# línea indentada se lee como una cabecera, y al no tener dos puntos Cloudflare
+# descarta el bloque entero. Así se cayeron todas las cabeceras el 15-10-2026.
+#
+# Strict-Transport-Security: un año por https. El navegador deja de intentar en
+# claro, así que la portada y el formulario de contacto no viajan a la vista.
 /*
-  # Un año por https. El navegador deja de intentar en claro, así que la
-  # contraseña del panel y la cookie de sesión no pueden viajar a la vista.
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
