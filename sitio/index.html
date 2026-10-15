@@ -1269,11 +1269,17 @@ const DATOS = {
         await fetch(DATOS.envio.url, opciones);
       } else {
         const r = await fetch(DATOS.envio.url, opciones);
-        if (!r.ok) throw new Error("respuesta " + r.status);
         let cuerpoResp = null;
         try { cuerpoResp = await r.json(); } catch (err) { /* respuesta no legible */ }
-        if (cuerpoResp && cuerpoResp.ok === false) {
-          throw new Error(cuerpoResp.error || "la planilla rechazó el envío");
+        // Cuando el servidor rechaza, explica por qué: faltó un dato, o llegaron
+        // demasiados envíos seguidos (429). Repetir esa frase vale más que
+        // "revise la conexión", que manda a reintentar lo que no va a andar.
+        // Lo que no trae explicación sí es un problema de red y se trata como tal.
+        if (!r.ok || (cuerpoResp && cuerpoResp.ok === false)) {
+          const dicho = cuerpoResp && cuerpoResp.error;
+          const err = new Error(dicho || "respuesta " + r.status);
+          err.delServidor = !!dicho;
+          throw err;
         }
       }
       listo(form, d["Nombre"]);
@@ -1283,7 +1289,10 @@ const DATOS = {
       const alternativa = DATOS.telefono
         ? " Puede llamarnos al " + DATOS.telefono + "."
         : "";
-      nota(form, "No se pudieron enviar sus datos. Revise la conexión e intente de nuevo." + alternativa, true);
+      const motivo = e && e.delServidor
+        ? e.message
+        : "No se pudieron enviar sus datos. Revise la conexión e intente de nuevo.";
+      nota(form, motivo + alternativa, true);
     }
   };
 
