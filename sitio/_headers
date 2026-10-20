@@ -4,6 +4,12 @@
 # línea indentada se lee como una cabecera, y al no tener dos puntos Cloudflare
 # descarta el bloque entero. Así se cayeron todas las cabeceras el 15-10-2026.
 #
+# Content-Security-Policy: los dos dominios de Cloudflare Web Analytics son
+# distintos y hacen falta los dos. El script se baja de static.cloudflareinsights.com
+# (script-src) y manda lo medido a cloudflareinsights.com/cdn-cgi/rum con
+# sendBeacon (connect-src). Con uno solo, la baliza carga y despues no puede
+# reportar: mismo error rojo en consola y cero datos.
+#
 # Strict-Transport-Security: un año por https. El navegador deja de intentar en
 # claro, así que la portada y el formulario de contacto no viajan a la vista.
 /*
@@ -12,7 +18,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
   Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self' https://adm.seggarridos.com; form-action 'self'; base-uri 'self'; object-src 'none'
+  Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://adm.seggarridos.com https://cloudflareinsights.com; form-action 'self'; base-uri 'self'; object-src 'none'
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
