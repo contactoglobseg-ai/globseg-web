@@ -2,3 +2,6 @@
 planilla-google.gs
 
 .DS_Store
+
+# Caché que deja "wrangler dev" al probar el sitio localmente.
+.wrangler/

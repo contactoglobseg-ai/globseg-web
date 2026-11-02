@@ -5,6 +5,9 @@
   "compatibility_date": "2025-09-01",
   "assets": {
     "directory": "./sitio",
-    "not_found_handling": "none"
+    // Una dirección que no existe entrega sitio/404.html con código 404.
+    // Con "none" devolvía un 404 con el cuerpo vacío: una pantalla en blanco
+    // para quien escribió mal la dirección o llegó por un enlace viejo.
+    "not_found_handling": "404-page"
   }
 }

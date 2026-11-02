@@ -7,7 +7,9 @@
 <meta name="description" content="Empresa de seguridad privada en Chile. Guardias, rondas y vigilancia móvil, cámaras y alarmas, y seguridad para eventos, en plantas, bodegas, obras y parques fotovoltaicos. Cada turno queda escrito: hora, punto, novedad y firma. Cotización y visita al lugar sin costo.">
 <meta name="theme-color" content="#0A0031">
 <link rel="canonical" href="https://seggarridos.com/">
-<link rel="icon" href="assets/logo.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icono-32.png">
+<link rel="apple-touch-icon" href="assets/icono-180.png">
 <meta property="og:title" content="Seguridad Garridos — guardias, rondas y cámaras">
 <meta property="og:description" content="Guardias, rondas y cámaras para plantas, bodegas, obras y parques fotovoltaicos. Cada turno queda escrito.">
 <meta property="og:image" content="https://seggarridos.com/assets/logo.png">
@@ -527,7 +529,7 @@ section{scroll-margin-top:84px}
 <header class="barra">
   <div class="env barra__in">
     <a class="marca" href="#">
-      <img src="assets/logo.png" alt="Escudo de Seguridad Garridos" width="38" height="38">
+      <img src="assets/logo-160.png" alt="Escudo de Seguridad Garridos" width="38" height="38">
       <span class="marca__txt">
         <b>Seguridad Garridos</b>
         <span>GLOBSEG SPA</span>
@@ -596,6 +598,9 @@ section{scroll-margin-top:84px}
               Quiero que me contacten
             </button>
             <p class="nota" id="f-rapido-nota" role="status">Coordinamos una visita al lugar, sin costo.</p>
+            <!-- Va DESPUÉS de la nota con role=status: nota() reescribe el
+                 primer .nota del formulario, y esta línea no se puede perder. -->
+            <p class="nota">Sus datos se usan solo para contactarlo. <a href="/legal#privacidad">Cómo los cuidamos</a>.</p>
           </div>
           <div class="linea__ok" hidden>
             <b>Datos recibidos</b>
@@ -620,7 +625,7 @@ section{scroll-margin-top:84px}
         </div>
         <div class="hoja__pie">
           <span>Entrega de puesto</span>
-          <img class="timbre" src="assets/logo.png" alt="" width="58" height="58" aria-hidden="true">
+          <img class="timbre" src="assets/logo-160.png" alt="" width="58" height="58" aria-hidden="true">
           <span class="firma">Firma <i></i></span>
         </div>
       </div>
@@ -1048,6 +1053,7 @@ section{scroll-margin-top:84px}
             Enviar mis datos
           </button>
           <p class="nota" id="f-largo-nota" role="status">Horario de atención <span class="pend">por definir</span>.</p>
+          <p class="nota">Sus datos se usan solo para contactarlo y cotizar; no se ceden a nadie. <a href="/legal#privacidad">Política de privacidad</a>.</p>
         </div>
         <div class="linea__ok" hidden>
           <b>Datos recibidos</b>
@@ -1066,7 +1072,7 @@ section{scroll-margin-top:84px}
 <footer class="pie">
   <div class="env pie__in">
     <a class="marca" href="#" style="margin-right:0">
-      <img src="assets/logo.png" alt="" width="38" height="38" aria-hidden="true">
+      <img src="assets/logo-160.png" alt="" width="38" height="38" aria-hidden="true">
       <span class="marca__txt">
         <b>Seguridad Garridos</b>
         <span>Desde 2025</span>
@@ -1076,7 +1082,9 @@ section{scroll-margin-top:84px}
       <b>GLOBSEG SPA</b> · RUT 78.095.104-4<br>
       Seguridad privada: guardias, rondas, cámaras y eventos.<br>
       <a href="#" data-enlace="telefono" class="pend">+56 ...</a> ·
-      <a href="#" data-enlace="email" class="pend">contacto@...</a>
+      <a href="#" data-enlace="email" class="pend">contacto@...</a><br>
+      <a href="/legal#aviso-legal">Aviso legal</a> ·
+      <a href="/legal#privacidad">Política de privacidad</a>
     </p>
   </div>
 </footer>

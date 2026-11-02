@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Esa página no existe | Seguridad Garridos</title>
+<meta name="description" content="La dirección que abrió no existe en seggarridos.com. Vuelva a la portada o llámenos.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0031">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icono-32.png">
+<link rel="apple-touch-icon" href="assets/icono-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Archivo:wght@400;500;600&display=swap">
+<style>
+/* El teléfono está escrito acá a mano. Si cambia en el objeto DATOS de
+   index.html, hay que cambiarlo también en esta página: no comparten script. */
+:root{
+  --tinta:#130052; --tinta-prof:#0A0031; --papel:#E7EBE3;
+  --verde:#00E88A; --cian:#00A7F5;
+  --sobre-tinta:#F2F0FF; --sobre-tinta-2:#B3ACE4;
+  --filete:rgba(242,240,255,.15);
+  --display:"Big Shoulders Display","Arial Narrow",Helvetica,sans-serif;
+  --cuerpo:"Archivo","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{
+  min-height:100svh;display:grid;place-items:center;
+  background:var(--tinta);color:var(--sobre-tinta);
+  font:400 1rem/1.62 var(--cuerpo);
+  padding:clamp(24px,6vw,64px);
+}
+img{display:block}
+.hoja{max-width:34rem;text-align:left}
+.marca{display:flex;align-items:center;gap:12px;margin-bottom:clamp(28px,5vw,44px)}
+.marca b{font:700 1.05rem/1 var(--display);letter-spacing:.04em;text-transform:uppercase}
+.marca span{display:block;font-size:.72rem;color:var(--sobre-tinta-2);letter-spacing:.14em;text-transform:uppercase}
+.folio{
+  font:600 .74rem/1 var(--cuerpo);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--verde);display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.folio::after{content:"";flex:1;height:1px;background:var(--filete)}
+h1{
+  margin:0 0 14px;font:800 clamp(2.1rem,7vw,3.4rem)/.94 var(--display);
+  text-transform:uppercase;letter-spacing:-.015em;text-wrap:balance;
+}
+p{margin:0 0 10px;color:var(--sobre-tinta-2)}
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(24px,4vw,34px)}
+.bt{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 20px;border-radius:99px;border:1px solid transparent;
+  font:600 .95rem/1 var(--cuerpo);text-decoration:none;
+}
+.bt--pri{background:var(--verde);color:var(--tinta-prof)}
+.bt--sec{border-color:var(--filete);color:var(--sobre-tinta)}
+.bt svg{width:19px;height:19px;flex:none}
+a:focus-visible{outline:2px solid var(--verde);outline-offset:3px}
+</style>
+</head>
+<body>
+<main class="hoja">
+  <a class="marca" href="/" style="color:inherit;text-decoration:none">
+    <img src="assets/logo-160.png" alt="" width="38" height="38" aria-hidden="true">
+    <span>
+      <b>Seguridad Garridos</b>
+      <span>GLOBSEG SPA</span>
+    </span>
+  </a>
+
+  <p class="folio">Error 404</p>
+  <h1>Esa página no existe</h1>
+  <p>La dirección que abrió no está en este sitio. Puede que el enlace venga mal escrito o que la página se haya movido.</p>
+  <p>Todo lo del servicio está en la portada: guardias, rondas, cámaras y eventos, y el formulario para que lo llamemos.</p>
+
+  <div class="acciones">
+    <a class="bt bt--pri" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20V9l9-5 9 5v11"/><path d="M9 20v-6h6v6"/></svg>
+      Ir a la portada
+    </a>
+    <a class="bt bt--sec" href="tel:+56989887614">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5.2c0-.7.6-1.3 1.3-1.3h2c.6 0 1.1.4 1.2 1l.6 2.5c.1.5-.1 1-.5 1.2l-1.2.8a9.5 9.5 0 0 0 4.7 4.7l.8-1.2c.3-.4.7-.6 1.2-.5l2.5.6c.6.1 1 .6 1 1.2v2c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 5.2Z"/></svg>
+      +56 9 8988 7614
+    </a>
+  </div>
+</main>
+</body>
+</html>

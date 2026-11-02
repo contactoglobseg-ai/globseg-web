@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aviso legal y política de privacidad | Seguridad Garridos</title>
+<meta name="description" content="Quién es el titular de seggarridos.com, qué datos pide el formulario, para qué se usan, quién los ve y cómo pedir que se borren. GLOBSEG SPA, RUT 78.095.104-4.">
+<meta name="theme-color" content="#0A0031">
+<link rel="canonical" href="https://seggarridos.com/legal">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icono-32.png">
+<link rel="apple-touch-icon" href="assets/icono-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Archivo:wght@400;500;600;700&display=swap">
+<style>
+/* Los datos de contacto están escritos acá a mano. Si cambian en el objeto
+   DATOS de index.html, hay que cambiarlos también en esta página y en el
+   JSON-LD: no comparten script. */
+:root{
+  --tinta:#130052; --tinta-prof:#0A0031; --papel:#E7EBE3; --papel-raya:#C2CBBD;
+  --verde:#00E88A; --aviso:#FFC24A;
+  --sobre-tinta:#F2F0FF; --sobre-tinta-2:#B3ACE4;
+  --sobre-papel:#130052; --sobre-papel-2:#4B4080;
+  --filete:rgba(242,240,255,.15);
+  --display:"Big Shoulders Display","Arial Narrow",Helvetica,sans-serif;
+  --cuerpo:"Archivo","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0}
+body{background:var(--tinta);color:var(--sobre-tinta);font:400 1rem/1.65 var(--cuerpo)}
+img{display:block}
+a{color:inherit}
+:where(a,summary):focus-visible{outline:2px solid var(--verde);outline-offset:3px;border-radius:2px}
+.env{max-width:50rem;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+
+.barra{position:sticky;top:0;z-index:5;background:var(--tinta-prof);border-bottom:1px solid var(--filete)}
+.barra__in{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:14px}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+.marca b{font:700 1rem/1 var(--display);letter-spacing:.04em;text-transform:uppercase;display:block}
+.marca span span{display:block;font-size:.7rem;color:var(--sobre-tinta-2);letter-spacing:.14em;text-transform:uppercase}
+.volver{font-size:.88rem;color:var(--sobre-tinta-2);text-decoration:none;white-space:nowrap}
+.volver:hover{color:var(--sobre-tinta)}
+
+.cabeza{padding-block:clamp(40px,8vw,72px) clamp(18px,4vw,30px)}
+.cabeza h1{margin:0 0 10px;font:800 clamp(2rem,6.5vw,3rem)/.95 var(--display);
+  text-transform:uppercase;letter-spacing:-.015em;text-wrap:balance}
+.cabeza p{margin:0;color:var(--sobre-tinta-2);max-width:40rem}
+
+/* El cuerpo se lee sobre papel de registro, como el resto del sitio. */
+.hoja{
+  background:var(--papel);color:var(--sobre-papel);
+  border-radius:4px;box-shadow:0 20px 44px -20px rgba(4,0,22,.75);
+  padding:clamp(26px,5vw,52px);margin-bottom:clamp(40px,8vw,80px);
+}
+.hoja h2{
+  margin:0 0 6px;font:800 clamp(1.3rem,3.6vw,1.75rem)/1.02 var(--display);
+  text-transform:uppercase;letter-spacing:-.01em;
+}
+.hoja h2:not(:first-of-type){margin-top:clamp(30px,5vw,46px)}
+.hoja h3{margin:26px 0 6px;font:700 1rem/1.3 var(--cuerpo)}
+.hoja p,.hoja li{color:var(--sobre-papel-2)}
+.hoja p{margin:0 0 12px}
+.hoja ul{margin:0 0 12px;padding-left:1.15rem}
+.hoja li{margin-bottom:7px}
+.hoja b,.hoja strong{color:var(--sobre-papel)}
+.hoja a{color:var(--sobre-papel);text-underline-offset:3px}
+.hoja hr{border:0;border-top:1px solid var(--papel-raya);margin:clamp(30px,5vw,46px) 0 0}
+.tope{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sobre-papel-2);
+  display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.tope::after{content:"";flex:1;height:1px;background:var(--papel-raya)}
+.ficha{list-style:none;margin:0 0 12px;padding:0}
+.ficha li{display:flex;flex-wrap:wrap;gap:4px 10px;padding:9px 0;border-bottom:1px solid var(--papel-raya)}
+.ficha li span{flex:0 0 11rem;color:var(--sobre-papel-2);font-size:.86rem}
+.ficha li b{flex:1 1 14rem;font-weight:600}
+/* Lo que la empresa todavía no confirma se dice en ámbar, no se inventa. */
+.pend{background:rgba(255,194,74,.22);box-shadow:inset 0 -2px 0 var(--aviso);
+  padding:0 3px;border-radius:2px;color:var(--sobre-papel)}
+.fecha{margin-top:14px;font-size:.84rem;color:var(--sobre-papel-2)}
+
+.pie{border-top:1px solid var(--filete);padding-block:26px 40px;font-size:.86rem;color:var(--sobre-tinta-2)}
+.pie a{color:var(--sobre-tinta)}
+@media (max-width:560px){.ficha li span{flex:1 1 100%}}
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="env barra__in">
+    <a class="marca" href="/">
+      <img src="assets/logo-160.png" alt="" width="34" height="34" aria-hidden="true">
+      <span>
+        <b>Seguridad Garridos</b>
+        <span>GLOBSEG SPA</span>
+      </span>
+    </a>
+    <a class="volver" href="/">← Volver a la portada</a>
+  </div>
+</header>
+
+<main>
+  <div class="env cabeza">
+    <h1>Aviso legal y privacidad</h1>
+    <p>Quién está detrás de este sitio, qué datos pide el formulario, para qué se usan, quién los ve y cómo pedir que se borren.</p>
+  </div>
+
+  <div class="env">
+    <article class="hoja">
+
+      <p class="tope">Aviso legal</p>
+      <h2 id="aviso-legal">Quién es el titular de este sitio</h2>
+      <ul class="ficha">
+        <li><span>Razón social</span><b>GLOBSEG SPA</b></li>
+        <li><span>Nombre comercial</span><b>Seguridad Garridos</b></li>
+        <li><span>RUT</span><b>78.095.104-4</b></li>
+        <li><span>Representante legal</span><b>Jose Misael Garrido Huinca</b></li>
+        <li><span>Domicilio</span><b class="pend">por confirmar</b></li>
+        <li><span>Correo</span><b><a href="mailto:contacto.globseg@gmail.com">contacto.globseg@gmail.com</a></b></li>
+        <li><span>Teléfono</span><b><a href="tel:+56989887614">+56 9 8988 7614</a></b></li>
+        <li><span>Giro</span><b>Servicios de seguridad privada</b></li>
+      </ul>
+
+      <h3>Para qué es este sitio</h3>
+      <p>Para dar a conocer los servicios de la empresa y recibir los datos de quien quiere una cotización. No se vende nada en línea y no hay pagos: lo único que se puede hacer acá es dejar sus datos para que lo contactemos.</p>
+
+      <h3>Lo que dice la página no es una cotización</h3>
+      <p>La descripción de los servicios es referencial. El precio de un servicio depende de cuántos puestos hay que cubrir, qué turnos y dónde queda la instalación, y siempre se entrega por escrito después de visitar el lugar. Nada de lo publicado acá obliga a la empresa ni al visitante mientras no exista una cotización firmada.</p>
+
+      <h3>Contenido del sitio</h3>
+      <p>Los textos, el logotipo, el escudo y el diseño de estas páginas son de GLOBSEG SPA. Se pueden citar o compartir los enlaces libremente; copiarlos para presentarlos como propios, no.</p>
+
+      <h3>Qué ley se aplica</h3>
+      <p>Este sitio se rige por las leyes de la República de Chile. Cualquier discrepancia la ven los tribunales ordinarios de justicia chilenos.</p>
+
+      <hr>
+
+      <p class="tope" style="margin-top:clamp(30px,5vw,46px)">Política de privacidad</p>
+      <h2 id="privacidad">Qué hacemos con sus datos</h2>
+      <p>Quien trata los datos es <b>GLOBSEG SPA</b>, RUT 78.095.104-4, en los correos y teléfono de más arriba.</p>
+
+      <h3>Qué datos pedimos</h3>
+      <p>Solo los que usted escribe en el formulario:</p>
+      <ul>
+        <li><b>Obligatorios:</b> su nombre, su teléfono y qué hay que cuidar. Sin eso no podemos devolverle el contacto.</li>
+        <li><b>Opcionales:</b> la empresa, la comuna, el servicio que busca, el turno y el detalle del lugar. Ayudan a llegar con la cotización más cerca de lo que necesita.</li>
+      </ul>
+      <p>No pedimos su RUT, ni datos bancarios, ni documentos. Si los escribe en el campo de detalle, llegan igual, así que conviene no hacerlo.</p>
+
+      <h3>Para qué los usamos</h3>
+      <p>Para una sola cosa: contactarlo, coordinar la visita al lugar y entregarle la cotización. No se usan para publicidad, no se mandan boletines y <b>no se venden ni se ceden a terceros</b>.</p>
+
+      <h3>Quién los ve</h3>
+      <p>Las cuentas del sistema interno de la empresa: gerencia, operaciones y la administración comercial. Cada una entra con su propia contraseña y queda registrado quién atendió cada contacto.</p>
+
+      <h3>Dónde quedan guardados</h3>
+      <p>Los datos del formulario no se mandan por correo ni a un servicio de formularios de terceros: van directo al sistema propio de la empresa (<span style="white-space:nowrap">adm.seggarridos.com</span>), que se apoya en los proveedores de infraestructura Cloudflare y Supabase. Esos servidores pueden estar fuera de Chile. El envío viaja cifrado por https.</p>
+
+      <h3>Cuánto tiempo</h3>
+      <p>Mientras siga teniendo sentido comercial: un contacto que terminó en servicio queda mientras dure la relación, y uno que no prosperó se conserva por si retoma. <b>Puede pedir que lo borremos cuando quiera</b> y lo hacemos.</p>
+
+      <h3>Una huella de su conexión, por dos días</h3>
+      <p>Para que nadie inunde el formulario con envíos automáticos, el sistema guarda una <b>huella irreversible</b> de la dirección IP desde la que se envió —no la dirección misma— y la borra a los dos días. Solo sirve para contar cuántos envíos llegaron desde ahí.</p>
+
+      <h3>Sus derechos</h3>
+      <p>Por la Ley 19.628 sobre protección de la vida privada —y por la Ley 21.719, que entra en vigencia el 1 de diciembre de 2026— usted puede pedirnos en cualquier momento que le digamos qué datos suyos tenemos, que los corrijamos si están mal, o que los borremos. Escriba a <a href="mailto:contacto.globseg@gmail.com">contacto.globseg@gmail.com</a> desde donde pueda identificarse y le respondemos.</p>
+
+      <hr>
+
+      <p class="tope" style="margin-top:clamp(30px,5vw,46px)">Cookies</p>
+      <h2 id="cookies">Este sitio no usa cookies</h2>
+      <p>No hay cookies de sesión, ni de publicidad, ni de seguimiento, y por eso tampoco hay un cartel pidiéndole que las acepte: no habría nada que aceptar. Tampoco guardamos nada en su navegador.</p>
+      <h3>Lo único que viene de afuera</h3>
+      <ul>
+        <li><b>Cloudflare Web Analytics</b>, que cuenta las visitas de la página. No usa cookies y no sigue a la persona entre distintos sitios.</li>
+        <li><b>Google Fonts</b>, de donde el navegador baja las dos tipografías con que está escrita la página. Para entregarlas, Google recibe la dirección IP de su conexión, como pasa con cualquier archivo que un navegador va a buscar.</li>
+      </ul>
+
+      <p class="fecha">Última actualización: 2 de noviembre de 2026.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="pie">
+  <div class="env">
+    <b>GLOBSEG SPA</b> · RUT 78.095.104-4 ·
+    <a href="tel:+56989887614">+56 9 8988 7614</a> ·
+    <a href="mailto:contacto.globseg@gmail.com">contacto.globseg@gmail.com</a><br>
+    <a href="/">Volver a la portada</a>
+  </div>
+</footer>
+
+</body>
+</html>
