@@ -23,29 +23,60 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Archivo:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: fondo de tinta marino; el contenido se lee sobre hojas de libro de registro.
-   Columna de concepto a la izquierda de cada registro, cuerpo al centro, "queda escrito"
-   al costado. Un solo tema comprometido. */
+/* ------------------------------------------------------------------
+   VIDRIO ESMERILADO SOBRE LOS COLORES DE LA MARCA
+   --------------------------------------------------------------
+   La escena de fondo es fija y está hecha con degradados, no con una
+   foto: la CSP de `_headers` solo deja imágenes del propio dominio
+   (`img-src 'self' data:`), y una foto a pantalla completa son dos o
+   tres megas que el visitante baja antes de leer la primera frase.
+   Los colores salen del escudo: tinta #130052, verde #00E88A y cian
+   #00A7F5. Encima, todo el contenido flota en paneles de vidrio.
+
+   Dos materiales, no uno:
+   - vidrio OSCURO para la estructura (barra, tarjetas, formularios);
+   - vidrio CLARO para el libro de novedades y la carpeta de
+     documentos, que son papel y tienen que seguir leyéndose como
+     papel: es el concepto de la página, no un adorno.
+------------------------------------------------------------------ */
 :root{
+  /* marca */
   --tinta:#130052;
   --tinta-prof:#0A0031;
   --tinta-alta:#1E0A72;
-  --papel:#E7EBE3;
-  --papel-alt:#DCE2D6;
-  --papel-raya:#C2CBBD;
   --verde:#00E88A;
   --cian:#00A7F5;
-  --sobre-tinta:#F2F0FF;
-  --sobre-tinta-2:#B3ACE4;
+  --aviso:#FFC24A;
+  --alerta:#FF8A7A;
+  --papel:#E7EBE3;
+  --papel-raya:rgba(19,0,82,.14);
   --sobre-papel:#130052;
   --sobre-papel-2:#4B4080;
-  --filete:rgba(242,240,255,.15);
-  --aviso:#FFC24A;
-  --degradado:linear-gradient(165deg,var(--verde) 0%,#01DDA5 48%,var(--cian) 100%);
+
+  /* vidrio */
+  --vid:rgba(255,255,255,.075);
+  --vid-2:rgba(255,255,255,.12);
+  --vid-3:rgba(255,255,255,.18);
+  --filete:rgba(255,255,255,.17);
+  --filete-2:rgba(255,255,255,.26);
+  --brillo:inset 0 1px 0 rgba(255,255,255,.22);
+  --sombra:0 8px 32px rgba(3,0,20,.34);
+  --sombra-alta:0 18px 44px rgba(3,0,20,.46);
+  --desenfoque:blur(24px) saturate(160%);
+  --r:24px;
+  --r-ch:16px;
+  --r-pil:999px;
+
+  /* texto */
+  --texto:#fff;
+  --texto-2:rgba(255,255,255,.64);
+  --texto-3:rgba(255,255,255,.44);
+
+  --degradado:linear-gradient(135deg,var(--verde) 0%,#00D9A6 46%,var(--cian) 100%);
   --display:"Big Shoulders Display","Arial Narrow",Helvetica,sans-serif;
   --cuerpo:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --sombra-papel:0 20px 44px -20px rgba(4,0,22,.75);
   --env:1240px;
+  --barra:72px;
   color-scheme:dark;
 }
 
@@ -54,140 +85,228 @@
 html{-webkit-text-size-adjust:100%}
 html,body{margin:0}
 body{
-  background:var(--tinta);
-  color:var(--sobre-tinta);
-  font:400 1rem/1.62 var(--cuerpo);
+  background:var(--tinta-prof);
+  color:var(--texto);
+  font:400 1rem/1.64 var(--cuerpo);
   overflow-x:hidden;
+  min-height:100svh;
 }
+
+/* ---------- la escena del fondo ----------
+   Fija de verdad: un pseudoelemento en position:fixed, no
+   background-attachment:fixed, que en Safari de iPhone salta al
+   desplazarse y descuadra toda la página. */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(90rem 60rem at 76% -12%, rgba(0,167,245,.30), transparent 62%),
+    radial-gradient(70rem 52rem at 8% 6%,  rgba(0,232,138,.20), transparent 58%),
+    radial-gradient(60rem 48rem at 92% 74%, rgba(30,10,114,.85), transparent 66%),
+    radial-gradient(48rem 40rem at 18% 96%, rgba(0,167,245,.16), transparent 62%),
+    linear-gradient(168deg,#160A4A 0%,#0C0238 46%,#070024 100%);
+}
+/* La capa oscura que pide el contraste, más un grano finísimo para que
+   el degradado no se vea en bandas en pantallas de 8 bits. */
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-color:rgba(4,0,22,.26);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23g)' opacity='.3'/></svg>");
+  background-size:auto,160px 160px;
+  opacity:1;
+}
+
 ::selection{background:var(--verde);color:var(--tinta-prof)}
 :where(a,button,input,select,textarea,summary):focus-visible{
-  outline:2px solid var(--verde);outline-offset:2px;border-radius:2px;
+  outline:2px solid var(--verde);outline-offset:3px;border-radius:6px;
 }
-*{scrollbar-color:#3B2B8A var(--tinta-prof)}
+*{scrollbar-color:rgba(255,255,255,.22) transparent}
 *::-webkit-scrollbar{width:11px;height:11px}
-*::-webkit-scrollbar-track{background:var(--tinta-prof)}
-*::-webkit-scrollbar-thumb{background:#3B2B8A;border:3px solid var(--tinta-prof);border-radius:99px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border:3px solid transparent;
+  background-clip:content-box;border-radius:99px}
 img{max-width:100%;display:block}
-h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;line-height:.92;
-  letter-spacing:-.015em;text-transform:uppercase;text-wrap:balance}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;line-height:.94;
+  letter-spacing:-.012em;text-transform:uppercase;text-wrap:balance}
 p{margin:0}
 .env{max-width:var(--env);margin-inline:auto;padding-inline:clamp(16px,4vw,48px)}
 .hora{font-variant-numeric:tabular-nums}
 
+/* ---------- el material ----------
+   Un solo lugar donde está escrito qué es "vidrio". Si hay que
+   cambiar el desenfoque o el radio, se cambia acá y no en veinte
+   reglas que se van separando solas. */
+.linea,.hoja,.carpeta,.cifra,.dolor__c,.reg,.paso,.lista,.faq,
+.sectores button,.regiones li,.cinta__in > span,.dato,.copiar,.bt--fan,
+.nav,.pie__in,.dock{
+  -webkit-backdrop-filter:var(--desenfoque);
+  backdrop-filter:var(--desenfoque);
+}
+.linea,.cifra,.dolor__c,.reg,.paso,.lista,.faq{
+  background:var(--vid);
+  border:1px solid var(--filete);
+  border-radius:var(--r);
+  box-shadow:var(--sombra),var(--brillo);
+}
+
 /* ---------- barra ---------- */
 .barra{
-  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
-  background:var(--tinta-prof);border-bottom:1px solid var(--filete);
+  position:sticky;top:0;z-index:40;
+  padding-top:env(safe-area-inset-top,0px);
+  background:linear-gradient(180deg,rgba(7,0,36,.62),rgba(7,0,36,.30));
+  -webkit-backdrop-filter:blur(20px) saturate(170%);
+  backdrop-filter:blur(20px) saturate(170%);
+  border-bottom:1px solid rgba(255,255,255,.10);
+  transition:background-color .25s,border-color .25s,box-shadow .25s;
 }
-.barra__in{display:flex;align-items:center;gap:clamp(16px,3vw,40px);
-  min-height:64px;padding-block:10px}
+.barra__in{display:flex;align-items:center;gap:clamp(12px,2.4vw,28px);
+  min-height:var(--barra);padding-block:10px}
 .marca{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;margin-right:auto}
-.marca img{width:38px;height:38px}
+.marca img{width:38px;height:38px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
 .marca__txt{display:block}
 .marca__txt b{display:block;font-family:var(--display);font-weight:700;font-size:1.22rem;
-  letter-spacing:.005em;text-transform:uppercase;line-height:1;color:var(--sobre-tinta)}
+  letter-spacing:.005em;text-transform:uppercase;line-height:1;color:var(--texto)}
 .marca__txt span{display:block;font-size:.66rem;letter-spacing:.17em;text-transform:uppercase;
-  color:var(--sobre-tinta-2);margin-top:3px}
-.nav{display:flex;gap:clamp(14px,2vw,28px)}
-.nav a{color:var(--sobre-tinta-2);text-decoration:none;font-size:.9rem;font-weight:500;
-  padding-block:6px;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
-.nav a:hover{color:var(--sobre-tinta);border-bottom-color:var(--verde)}
-@media (max-width:860px){.nav{display:none}}
+  color:var(--texto-3);margin-top:3px}
+
+/* navegación en píldoras de vidrio */
+.nav{
+  display:flex;gap:3px;padding:4px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:var(--r-pil);
+  box-shadow:var(--brillo);
+}
+.nav a{
+  color:var(--texto-2);text-decoration:none;font-size:.88rem;font-weight:500;
+  padding:9px 16px;border-radius:var(--r-pil);line-height:1;
+  display:inline-flex;align-items:center;
+  transition:color .18s,background-color .18s,box-shadow .18s;
+}
+.nav a:hover{color:var(--texto);background:rgba(255,255,255,.1)}
+.nav a.activa{
+  color:#fff;background:rgba(255,255,255,.17);
+  box-shadow:var(--brillo),0 2px 10px rgba(3,0,20,.3);
+}
+@media (max-width:1000px){.nav{display:none}}
+
+.barra__acc{display:flex;align-items:center;gap:9px}
 
 /* ---------- botones ---------- */
 .bt{
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  font:600 .95rem/1 var(--cuerpo);letter-spacing:.005em;
-  padding:14px 20px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;
-  transition:transform .14s cubic-bezier(.2,.8,.2,1),box-shadow .14s,background-color .14s;
+  font:600 .93rem/1 var(--cuerpo);letter-spacing:.005em;
+  padding:13px 20px;border-radius:var(--r-pil);border:0;cursor:pointer;text-decoration:none;
+  transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s,background-color .2s,color .2s;
 }
 .bt svg{width:19px;height:19px;flex:none}
-.bt--pri{background:var(--degradado);color:#05231A;
-  box-shadow:0 10px 24px -12px rgba(0,232,138,.7)}
-.bt--pri:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(0,232,138,.8)}
-.bt--pri:active{transform:translateY(0)}
-.bt--fan{background:transparent;color:var(--sobre-tinta);box-shadow:inset 0 0 0 1px var(--filete)}
-.bt--fan:hover{box-shadow:inset 0 0 0 1px var(--verde);color:#fff}
-.bt--papel{background:var(--tinta);color:var(--sobre-tinta)}
-.bt--papel:hover{background:var(--tinta-alta);transform:translateY(-2px)}
+.bt--pri{
+  background:var(--degradado);color:#042018;
+  box-shadow:0 10px 26px -10px rgba(0,217,166,.62),var(--brillo);
+}
+.bt--pri:hover{transform:translateY(-3px);box-shadow:0 18px 34px -12px rgba(0,217,166,.75),var(--brillo)}
+.bt--pri:active{transform:translateY(-1px)}
+.bt--fan{
+  background:var(--vid-2);color:var(--texto);
+  border:1px solid var(--filete);box-shadow:var(--brillo);
+}
+.bt--fan:hover{background:var(--vid-3);border-color:var(--filete-2);transform:translateY(-3px)}
+.bt--circ{
+  width:44px;height:44px;padding:0;flex:none;
+  background:var(--vid-2);color:var(--texto);
+  border:1px solid var(--filete);box-shadow:var(--brillo);
+  -webkit-backdrop-filter:var(--desenfoque);backdrop-filter:var(--desenfoque);
+}
+.bt--circ svg{width:20px;height:20px}
+.bt--circ:hover{background:var(--vid-3);border-color:var(--verde);color:var(--verde);transform:translateY(-3px)}
 .bt--bloque{width:100%}
 .bt[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* ---------- portada ---------- */
-.portada{padding-block:clamp(40px,6vw,76px) clamp(28px,4vw,48px);position:relative}
-.portada::before{
-  content:"";position:absolute;inset:0 0 auto;height:1px;background:var(--degradado);opacity:.5
-}
+.portada{padding-block:clamp(44px,7vw,92px) clamp(28px,4vw,52px);position:relative}
 .portada__rej{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(28px,4vw,56px);align-items:start}
 @media (max-width:980px){.portada__rej{grid-template-columns:1fr;gap:36px}}
 
-h1{font-size:clamp(2.7rem,6.6vw,5rem)}
+h1{font-size:clamp(2.7rem,6.6vw,5rem);
+  text-shadow:0 2px 30px rgba(3,0,20,.45)}
 .tesis{
   font-family:var(--display);font-weight:600;text-transform:uppercase;
   font-size:clamp(1.05rem,2vw,1.42rem);line-height:1.08;letter-spacing:.005em;
-  color:var(--sobre-tinta);margin-top:18px;max-width:22ch;
+  color:var(--texto);margin-top:18px;max-width:22ch;
   padding-top:16px;border-top:1px solid var(--filete);
 }
-.bajada{margin-top:18px;max-width:54ch;color:var(--sobre-tinta-2);font-size:1.03rem;line-height:1.68}
-.bajada strong{color:var(--sobre-tinta);font-weight:600}
+.bajada{margin-top:18px;max-width:54ch;color:var(--texto-2);font-size:1.03rem;line-height:1.7}
+.bajada strong{color:var(--texto);font-weight:600}
 
-/* ---------- línea de bitácora (acción) ---------- */
-.linea{
-  margin-top:28px;background:var(--tinta-prof);
-  box-shadow:inset 0 0 0 1px var(--filete);border-radius:3px;overflow:hidden;
-}
+/* ---------- formularios de vidrio ---------- */
+.linea{margin-top:28px;overflow:hidden}
 .linea__tit{
   display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
-  padding:13px 16px;border-bottom:1px solid var(--filete);
+  padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
 }
 .linea__tit b{font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:1.02rem;letter-spacing:.02em}
-.linea__tit span{font-size:.78rem;color:var(--sobre-tinta-2)}
-.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+  font-size:1.04rem;letter-spacing:.02em}
+.linea__tit span{font-size:.78rem;color:var(--texto-3)}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:18px 20px}
 .campos > :last-child{grid-column:1/-1}
 @media (max-width:560px){.campos{grid-template-columns:1fr}}
 .campo{display:flex;flex-direction:column;gap:6px;min-width:0}
-.campo > span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sobre-tinta-2)}
+.campo > span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--texto-3)}
 .campo input,.campo select,.campo textarea{
-  font:400 .97rem/1.4 var(--cuerpo);color:var(--sobre-tinta);
-  background:#160A47;border:1px solid var(--filete);border-radius:3px;
-  padding:11px 12px;width:100%;caret-color:var(--cian);
-  transition:border-color .15s,background-color .15s;
+  font:400 .97rem/1.4 var(--cuerpo);color:var(--texto);
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:12px;
+  padding:12px 13px;width:100%;caret-color:var(--verde);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  transition:border-color .18s,background-color .18s,box-shadow .18s;
 }
-.campo textarea{resize:vertical;min-height:88px}
-.campo input::placeholder,.campo textarea::placeholder{color:#8278C4}
-.campo input:hover,.campo select:hover,.campo textarea:hover{border-color:#4B3B9E}
-.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--verde);background:#1A0C55;outline:none}
+.campo textarea{resize:vertical;min-height:92px}
+.campo input::placeholder,.campo textarea::placeholder{color:rgba(255,255,255,.36)}
+.campo input:hover,.campo select:hover,.campo textarea:hover{
+  border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.1)}
+.campo input:focus,.campo select:focus,.campo textarea:focus{
+  border-color:var(--verde);background:rgba(0,232,138,.08);outline:none;
+  box-shadow:0 0 0 3px rgba(0,232,138,.16)}
 .campo select{appearance:none;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B3ACE4' stroke-width='1.6'><path d='M6 9.5l6 5 6-5'/></svg>");
-  background-repeat:no-repeat;background-position:right 10px center;background-size:19px;padding-right:36px}
-.campo--mal input,.campo--mal select{border-color:#FF8A7A}
-.campo em{font-style:normal;font-size:.8rem;color:#FF8A7A}
-.linea__pie{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px}
-.nota{font-size:.82rem;color:var(--sobre-tinta-2);line-height:1.5}
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='1.6'><path d='M6 9.5l6 5 6-5'/></svg>");
+  background-repeat:no-repeat;background-position:right 11px center;background-size:19px;padding-right:38px}
+.campo select option{background:#120742;color:#fff}
+.campo--mal input,.campo--mal select{border-color:var(--alerta);box-shadow:0 0 0 3px rgba(255,138,122,.14)}
+.campo em{font-style:normal;font-size:.8rem;color:var(--alerta)}
+.linea__pie{padding:0 20px 20px;display:flex;flex-direction:column;gap:11px}
+.nota{font-size:.82rem;color:var(--texto-3);line-height:1.5}
 .nota a{color:var(--verde);text-decoration:underline;text-underline-offset:3px}
 
-/* ---------- hoja del libro ---------- */
-.hoja{
-  position:relative;background:var(--papel);color:var(--sobre-papel);
-  border-radius:3px;box-shadow:var(--sombra-papel);overflow:hidden;
+/* ---------- el libro: vidrio claro ----------
+   Sigue siendo papel, pero translúcido: la escena del fondo se
+   adivina detrás, igual que en los paneles oscuros. */
+.hoja,.carpeta{
+  position:relative;
+  background:linear-gradient(180deg,rgba(243,245,240,.90),rgba(225,230,221,.84));
+  color:var(--sobre-papel);
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:var(--r);
+  box-shadow:var(--sombra-alta),inset 0 1px 0 rgba(255,255,255,.85);
+  overflow:hidden;
 }
 .hoja__tit{
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  padding:14px 18px 13px 64px;background:var(--papel-alt);
+  padding:15px 18px 14px 64px;background:rgba(255,255,255,.34);
   border-bottom:1px solid var(--papel-raya);
 }
 .hoja__tit b{font-family:var(--display);font-weight:700;text-transform:uppercase;
   font-size:.98rem;letter-spacing:.04em}
 .ejemplo{
-  margin-left:auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  margin-left:auto;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
   font-weight:600;color:var(--sobre-papel-2);
-  border:1px solid var(--papel-raya);border-radius:2px;padding:3px 7px;background:var(--papel);
+  border:1px solid var(--papel-raya);border-radius:var(--r-pil);padding:4px 10px;
+  background:rgba(255,255,255,.5);
 }
 .hoja__cuerpo{position:relative}
 .hoja__margen{
   position:absolute;left:56px;top:0;bottom:0;width:2px;background:var(--degradado);
-  transform-origin:top;
+  transform-origin:top;border-radius:2px;
 }
 .reg-fila{
   display:grid;grid-template-columns:56px 1fr;align-items:baseline;gap:0 16px;
@@ -198,329 +317,451 @@ h1{font-size:clamp(2.7rem,6.6vw,5rem)}
   font-size:.82rem;font-weight:600;color:var(--sobre-papel-2);
   padding:13px 10px 13px 0;text-align:right;
 }
-.reg-fila > p{padding:13px 18px 13px 8px;font-size:.93rem;line-height:1.55}
+.reg-fila > p{padding:13px 18px 13px 8px;font-size:.93rem;line-height:1.56}
 .reg-fila > p b{font-weight:600}
 .hoja__pie{
   display:flex;align-items:center;justify-content:space-between;gap:12px 18px;flex-wrap:wrap;
-  padding:14px 18px 14px 64px;border-top:1px solid var(--papel-raya);background:var(--papel-alt);
+  padding:14px 18px 14px 64px;border-top:1px solid var(--papel-raya);
+  background:rgba(255,255,255,.34);
   font-size:.82rem;color:var(--sobre-papel-2);
 }
 .firma{display:flex;align-items:center;gap:9px}
 .firma i{display:block;width:92px;height:1px;background:var(--sobre-papel-2);opacity:.5}
-.timbre{width:58px;height:58px;flex:none;opacity:.92;
+.timbre{width:58px;height:58px;flex:none;opacity:.9;
   transform:rotate(-7deg);pointer-events:none}
 
-/* ---------- cintas y secciones ---------- */
-.cinta{
-  border-block:1px solid var(--filete);background:var(--tinta-prof);
+/* ---------- cinta de credenciales ---------- */
+.cinta{padding-block:clamp(10px,2vw,18px)}
+.cinta__in{display:flex;flex-wrap:wrap;gap:10px;padding-block:0;
+  font-size:.82rem;color:var(--texto-2)}
+.cinta__in b{color:var(--texto);font-weight:600}
+.cinta__in > span{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 16px;border-radius:var(--r-pil);
+  background:var(--vid);border:1px solid var(--filete);box-shadow:var(--brillo);
 }
-.cinta__in{display:flex;flex-wrap:wrap;gap:10px 26px;padding-block:15px;
-  font-size:.83rem;color:var(--sobre-tinta-2)}
-.cinta__in b{color:var(--sobre-tinta);font-weight:600}
-.cinta__in > span{display:flex;align-items:center;gap:8px}
 .cinta__in svg{width:16px;height:16px;color:var(--verde);flex:none}
 
-section{scroll-margin-top:84px}
-.sec{padding-block:clamp(56px,8vw,104px)}
+section{scroll-margin-top:calc(var(--barra) + 14px)}
+.sec{padding-block:clamp(52px,7vw,96px)}
+/* Banda: separa una sección de la siguiente sin tapar la escena del fondo.
+   Antes era un rectángulo sólido en el atributo style, y donde caía la
+   página dejaba de ser vidrio sobre algo y pasaba a ser vidrio sobre nada. */
+.sec--banda{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));
+  border-block:1px solid rgba(255,255,255,.1);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  backdrop-filter:blur(14px) saturate(140%);
+}
 .sec__tit{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
-  padding-bottom:20px;border-bottom:1px solid var(--filete)}
+  padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.12)}
 .sec__tit h2{font-size:clamp(1.9rem,4vw,3.05rem)}
-.sec__tit p{color:var(--sobre-tinta-2);max-width:46ch;font-size:.97rem}
+.sec__tit p{color:var(--texto-2);max-width:46ch;font-size:.97rem}
 
-/* registros de servicio */
-.registros{margin-top:0}
-.reg{
-  display:grid;grid-template-columns:152px minmax(0,1fr) 300px;gap:0 32px;
-  padding-block:30px;border-bottom:1px solid var(--filete);
-  transition:background-color .18s;
-}
-.reg:hover{background:rgba(242,240,255,.035)}
-.reg__con{
-  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
-  color:var(--sobre-tinta-2);display:flex;align-items:flex-start;gap:9px;padding-top:5px;
-}
-.reg__con svg{width:20px;height:20px;color:var(--verde);flex:none}
-.reg h3{font-size:1.52rem;letter-spacing:-.005em}
-.reg__txt{margin-top:11px;color:var(--sobre-tinta-2);max-width:58ch;line-height:1.66}
-.reg__esc{
-  align-self:start;background:var(--tinta-prof);border-radius:3px;
-  box-shadow:inset 0 0 0 1px var(--filete);padding:14px 15px;
-}
-.reg__esc b{display:block;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--verde);margin-bottom:7px}
-.reg__esc p{font-size:.86rem;line-height:1.55;color:var(--sobre-tinta-2)}
-.reg--lead{padding-block:40px}
-.reg--lead h3{font-size:clamp(1.9rem,3.4vw,2.6rem)}
-.reg--lead .reg__txt{font-size:1.06rem;color:var(--sobre-tinta);max-width:52ch}
+/* ---------- servicios: tarjetas de vidrio con tinte propio ----------
+   El tinte no es decoración: separa cuatro servicios que de otro modo
+   se leen como un muro de texto del mismo color. */
+.registros{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(16px,2vw,22px);margin-top:28px}
+.registros > .reg{grid-column:span 2}
 @media (max-width:1040px){
-  .reg{grid-template-columns:132px minmax(0,1fr);gap:0 24px}
-  .reg__esc{grid-column:2;margin-top:16px}
+  .registros{grid-template-columns:repeat(2,1fr)}
+  .registros > .reg{grid-column:span 1}
 }
-@media (max-width:620px){
-  .reg{grid-template-columns:1fr;gap:0}
-  .reg__con{padding-top:0;margin-bottom:12px}
-  .reg__esc{grid-column:1;}
+@media (max-width:760px){.registros{grid-template-columns:1fr}}
+.reg{
+  display:flex;flex-direction:column;gap:0;
+  padding:26px 24px 24px;position:relative;overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s;
 }
+.reg::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(42rem 22rem at 12% -20%,var(--tinte,rgba(0,167,245,.2)),transparent 70%);
+  opacity:.9;transition:opacity .3s;
+}
+.reg > *{position:relative}
+.reg:hover{transform:translateY(-5px);border-color:var(--filete-2);box-shadow:var(--sombra-alta),var(--brillo)}
+.reg:hover::before{opacity:1}
+.registros .reg:nth-child(1){--tinte:rgba(0,167,245,.26);--chip:var(--cian)}
+.registros .reg:nth-child(2){--tinte:rgba(255,194,74,.22);--chip:var(--aviso)}
+.registros .reg:nth-child(3){--tinte:rgba(0,232,138,.22);--chip:var(--verde)}
+.registros .reg:nth-child(4){--tinte:rgba(150,110,255,.26);--chip:#B79BFF}
+.reg__con{
+  display:inline-flex;align-items:center;gap:9px;align-self:flex-start;
+  font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  color:var(--texto);padding:8px 13px 8px 9px;border-radius:var(--r-pil);
+  background:rgba(255,255,255,.1);border:1px solid var(--filete);
+  box-shadow:var(--brillo);margin-bottom:16px;
+}
+.reg__con svg{width:19px;height:19px;color:var(--chip,var(--verde));flex:none}
+.reg h3{font-size:1.52rem;letter-spacing:-.005em}
+.reg__txt{margin-top:11px;color:var(--texto-2);line-height:1.68}
+.reg__con + div{margin-bottom:20px}
+.reg__esc{
+  margin-top:auto;border-radius:var(--r-ch);
+  background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.1);
+  padding:15px 16px;
+}
+.reg__esc b{display:block;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--chip,var(--verde));margin-bottom:7px}
+.reg__esc p{font-size:.86rem;line-height:1.56;color:var(--texto-2)}
+.registros > .reg--lead{grid-column:1/-1}
+.reg--lead h3{font-size:clamp(1.9rem,3.2vw,2.5rem)}
+.reg--lead .reg__txt{font-size:1.05rem;color:var(--texto);max-width:60ch}
+.reg--lead .reg__esc{max-width:62ch}
 
-/* expediente: documentos reales */
+
+/* cotizar desde la propia tarjeta */
+.reg__cot{
+  display:inline-flex;align-items:center;gap:8px;margin-top:16px;align-self:flex-start;
+  font:600 .8rem/1 var(--cuerpo);letter-spacing:.05em;text-transform:uppercase;
+  color:var(--chip,var(--verde));cursor:pointer;
+  padding:10px 16px;border-radius:var(--r-pil);
+  background:rgba(255,255,255,.08);border:1px solid var(--filete);
+  transition:background-color .2s,transform .2s,border-color .2s;
+}
+.reg__cot svg{width:15px;height:15px;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.reg__cot:hover{background:rgba(255,255,255,.15);border-color:var(--filete-2);transform:translateY(-2px)}
+.reg__cot:hover svg{transform:translateX(4px)}
+
+/* ---------- expediente ---------- */
 .exp{display:grid;grid-template-columns:.86fr 1.14fr;gap:clamp(28px,4vw,56px);align-items:start}
 @media (max-width:900px){.exp{grid-template-columns:1fr}}
-.exp__lado p{color:var(--sobre-tinta-2);margin-top:16px;max-width:42ch;line-height:1.68}
-.carpeta{background:var(--papel);color:var(--sobre-papel);border-radius:3px;
-  box-shadow:var(--sombra-papel);overflow:hidden}
-.carpeta__tit{display:flex;align-items:center;gap:10px;padding:14px 18px;
-  background:var(--papel-alt);border-bottom:1px solid var(--papel-raya);
+.exp__lado p{color:var(--texto-2);margin-top:16px;max-width:42ch;line-height:1.7}
+.carpeta__tit{display:flex;align-items:center;gap:10px;padding:15px 18px;
+  background:rgba(255,255,255,.34);border-bottom:1px solid var(--papel-raya);
   font-family:var(--display);font-weight:700;text-transform:uppercase;
   font-size:.96rem;letter-spacing:.04em}
 .carpeta__tit svg{width:18px;height:18px}
 .doc{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:baseline;
   padding:13px 18px;border-bottom:1px solid var(--papel-raya)}
 .doc:last-child{border-bottom:0}
-.doc:nth-child(even){background:rgba(19,0,82,.028)}
+.doc:nth-child(even){background:rgba(19,0,82,.035)}
 .doc > b{font-size:.72rem;letter-spacing:.1em;font-weight:700;color:var(--sobre-papel);
   min-width:52px}
 .doc > span{font-size:.9rem;line-height:1.5;color:var(--sobre-papel-2)}
 
-/* pasos: la secuencia es la información */
-.pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--filete);
-  margin-top:0;border:1px solid var(--filete);border-radius:3px;overflow:hidden}
+/* ---------- pasos ---------- */
+.pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.8vw,20px);margin-top:28px}
 @media (max-width:900px){.pasos{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:540px){.pasos{grid-template-columns:1fr}}
-.paso{background:var(--tinta);padding:24px 22px 26px}
-.paso > b{font-family:var(--display);font-weight:800;font-size:2.1rem;line-height:1;
-  color:var(--verde);display:block}
-.paso h3{font-size:1.14rem;margin-top:12px}
-.paso p{margin-top:9px;font-size:.9rem;line-height:1.6;color:var(--sobre-tinta-2)}
+.paso{padding:24px 22px 26px;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s}
+.paso:hover{transform:translateY(-5px);border-color:var(--filete-2);box-shadow:var(--sombra-alta),var(--brillo)}
+.paso > b{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:42px;height:42px;border-radius:14px;
+  font-family:var(--display);font-weight:800;font-size:1.5rem;line-height:1;
+  color:var(--verde);background:rgba(0,232,138,.14);
+  border:1px solid rgba(0,232,138,.3);box-shadow:var(--brillo);
+}
+.paso h3{font-size:1.14rem;margin-top:14px}
+.paso p{margin-top:9px;font-size:.9rem;line-height:1.62;color:var(--texto-2)}
 
-/* respaldo en terreno */
-.respaldo{max-width:62ch;margin-top:14px;color:var(--sobre-tinta-2);line-height:1.68;font-size:1rem}
-.respaldo b{color:var(--sobre-tinta);font-weight:600}
-.regiones{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:14px;
-  font-size:.82rem;color:var(--sobre-tinta-2)}
-.regiones li{list-style:none;display:flex;align-items:center;gap:7px}
-.regiones li::before{content:"";width:5px;height:5px;border-radius:50%;
-  background:var(--verde);flex:none}
+/* ---------- dónde trabajamos ---------- */
+.respaldo{max-width:62ch;margin-top:14px;color:var(--texto-2);line-height:1.7;font-size:1rem}
+.respaldo b{color:var(--texto);font-weight:600}
+.regiones{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;padding:0;
+  font-size:.84rem;color:var(--texto-2)}
+.regiones li{list-style:none;display:flex;align-items:center;gap:8px;
+  padding:8px 15px;border-radius:var(--r-pil);
+  background:var(--vid);border:1px solid var(--filete);box-shadow:var(--brillo)}
+.regiones li::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--verde);flex:none;box-shadow:0 0 8px var(--verde)}
 
-/* sectores */
-.sectores{display:flex;flex-wrap:wrap;gap:9px;margin-top:0}
-.sectores li{list-style:none;font-size:.9rem;font-weight:500;
-  padding:9px 15px;border-radius:2px;background:var(--tinta-prof);
-  box-shadow:inset 0 0 0 1px var(--filete);color:var(--sobre-tinta)}
+/* ---------- sectores: cada uno prellena el formulario ---------- */
+.sectores{display:flex;flex-wrap:wrap;gap:10px;margin-top:0;padding:0}
+.sectores li{list-style:none;padding:0;background:none;box-shadow:none}
+.sectores button{
+  font:500 .9rem/1 var(--cuerpo);color:var(--texto);cursor:pointer;
+  padding:11px 17px;border-radius:var(--r-pil);
+  background:var(--vid);border:1px solid var(--filete);box-shadow:var(--brillo);
+  -webkit-backdrop-filter:var(--desenfoque);backdrop-filter:var(--desenfoque);
+  transition:background-color .2s,border-color .2s,transform .2s,color .2s;
+}
+.sectores button:hover{background:var(--vid-2);border-color:var(--verde);color:#fff;transform:translateY(-3px)}
+.sectores__rot,.datos__rot{margin-top:28px;margin-bottom:13px;font-size:.68rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--texto-3);font-weight:600}
 
-/* contacto */
+/* ---------- compromisos ---------- */
+.comp{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,4vw,56px);align-items:start}
+@media (max-width:900px){.comp{grid-template-columns:1fr}}
+.comp__lado p{color:var(--texto-2);margin-top:16px;max-width:42ch;line-height:1.7}
+.lista{display:flex;flex-direction:column;gap:0;padding:0;overflow:hidden}
+.lista > li{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;
+  align-items:start;padding:17px 20px;border-bottom:1px solid rgba(255,255,255,.1);
+  transition:background-color .2s}
+.lista > li:last-child{border-bottom:0}
+.lista > li:hover{background:rgba(255,255,255,.045)}
+.lista svg{width:18px;height:18px;color:var(--verde);flex:none;grid-row:1/3;
+  padding:4px;box-sizing:content-box;border-radius:50%;
+  background:rgba(0,232,138,.14);border:1px solid rgba(0,232,138,.3)}
+.lista > li > b{grid-column:2;font-weight:600;font-size:.98rem}
+.lista > li > span{grid-column:2;display:block;margin-top:5px;font-size:.88rem;
+  line-height:1.6;color:var(--texto-2)}
+.lista > li > b .pend{font-weight:600}
+
+/* ---------- preguntas frecuentes ---------- */
+.faq{overflow:hidden;margin-top:28px}
+.faq > details{border-bottom:1px solid rgba(255,255,255,.1)}
+.faq > details:last-child{border-bottom:0}
+.faq summary{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;
+  padding:19px 20px;cursor:pointer;list-style:none;
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:clamp(1rem,1.8vw,1.14rem);letter-spacing:.012em;line-height:1.16;
+  transition:background-color .2s,color .2s;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{background:rgba(255,255,255,.055)}
+.faq summary i{
+  display:block;width:26px;height:26px;position:relative;flex:none;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid var(--filete);transition:border-color .2s,background-color .2s;
+}
+.faq summary i::before,.faq summary i::after{
+  content:"";position:absolute;inset:50% 7px auto;height:1.6px;background:var(--verde);
+  transform:translateY(-50%);transition:transform .26s cubic-bezier(.2,.8,.2,1);border-radius:2px;
+}
+.faq summary i::after{transform:translateY(-50%) rotate(90deg)}
+.faq details[open] summary{color:var(--verde)}
+.faq details[open] summary i{border-color:var(--verde);background:rgba(0,232,138,.14)}
+.faq details[open] summary i::after{transform:translateY(-50%) rotate(0)}
+.faq__r{padding:0 20px 22px;max-width:74ch}
+.faq__r p{font-size:.95rem;line-height:1.7;color:var(--texto-2)}
+.faq__r p + p{margin-top:10px}
+.faq__r b{color:var(--texto);font-weight:600}
+
+/* ---------- contacto ---------- */
 .cont{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:start}
 @media (max-width:900px){.cont{grid-template-columns:1fr}}
-.datos{margin-top:8px;display:flex;flex-direction:column;gap:0}
-.dato{display:grid;grid-template-columns:118px minmax(0,1fr) auto;gap:14px;align-items:center;
-  padding-block:15px;border-bottom:1px solid var(--filete)}
-.dato > b{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sobre-tinta-2);font-weight:600}
-.dato > span{font-size:1.04rem;font-weight:500;word-break:break-word}
-.copiar{background:none;border:1px solid var(--filete);border-radius:2px;color:var(--sobre-tinta-2);
-  font:500 .76rem/1 var(--cuerpo);padding:7px 10px;cursor:pointer;transition:color .15s,border-color .15s}
-.copiar:hover{color:var(--sobre-tinta);border-color:var(--verde)}
-.copiar[data-ok="1"]{color:var(--verde);border-color:var(--verde)}
+.datos{margin-top:8px;display:flex;flex-direction:column;gap:10px}
+.dato{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:14px;align-items:center;
+  padding:14px 17px;border-radius:var(--r-ch);
+  background:var(--vid);border:1px solid var(--filete);box-shadow:var(--brillo)}
+.dato > b{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--texto-3);font-weight:600}
+.dato > span{font-size:1.03rem;font-weight:500;word-break:break-word}
+.copiar{background:rgba(255,255,255,.08);border:1px solid var(--filete);border-radius:var(--r-pil);
+  color:var(--texto-2);font:500 .76rem/1 var(--cuerpo);padding:8px 13px;cursor:pointer;
+  transition:color .2s,border-color .2s,background-color .2s}
+.copiar:hover{color:var(--texto);border-color:var(--verde);background:rgba(0,232,138,.12)}
+.copiar[data-ok="1"]{color:var(--verde);border-color:var(--verde);background:rgba(0,232,138,.14)}
 
-/* estados del envío */
-.linea__ok{padding:24px 16px;display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+/* ---------- estados del envío ---------- */
+.linea__ok{padding:28px 20px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 .linea__ok b{font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:1.34rem;letter-spacing:.01em;color:var(--verde);line-height:1}
-.linea__ok p{font-size:.95rem;line-height:1.6;color:var(--sobre-tinta-2)}
+  font-size:1.36rem;letter-spacing:.01em;color:var(--verde);line-height:1}
+.linea__ok p{font-size:.95rem;line-height:1.62;color:var(--texto-2)}
 .bt[aria-busy="true"]{opacity:.65;pointer-events:none}
 .nota--mal{color:var(--aviso)}
-.datos__rot{margin-top:30px;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--sobre-tinta-2);font-weight:600}
 .solo-angosto{display:none}
 
-/* dato por confirmar */
+/* ---------- dato por confirmar ---------- */
 .pend{
   text-decoration:underline dotted var(--aviso);text-underline-offset:4px;
   color:var(--aviso);font-weight:500;
 }
 .pend[data-dato]::after{
-  content:"por confirmar";font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  content:"por confirmar";font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
   vertical-align:.32em;margin-left:7px;color:var(--aviso);opacity:.85;font-weight:600;
 }
 
-/* pie */
-.pie{border-top:1px solid var(--filete);background:var(--tinta-prof);
-  padding-block:34px calc(34px + env(safe-area-inset-bottom,0px))}
-.pie__in{display:flex;gap:26px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-.pie__legal{font-size:.84rem;color:var(--sobre-tinta-2);line-height:1.6}
-.pie__legal b{color:var(--sobre-tinta);font-weight:600}
-.pie__legal a{color:var(--sobre-tinta);text-decoration:none;
-  border-bottom:1px solid var(--filete);transition:border-color .15s,color .15s}
+/* ---------- pie ---------- */
+.pie{padding-block:clamp(26px,4vw,40px) calc(clamp(26px,4vw,40px) + env(safe-area-inset-bottom,0px))}
+.pie__in{display:flex;gap:26px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  padding:24px clamp(18px,3vw,30px);border-radius:var(--r);
+  background:var(--vid);border:1px solid var(--filete);box-shadow:var(--sombra),var(--brillo)}
+.pie__legal{font-size:.84rem;color:var(--texto-2);line-height:1.62}
+.pie__legal b{color:var(--texto);font-weight:600}
+.pie__legal a{color:var(--texto);text-decoration:none;
+  border-bottom:1px solid var(--filete);transition:border-color .2s,color .2s}
 .pie__legal a:hover{color:var(--verde);border-bottom-color:var(--verde)}
 .pie__legal a.pend{color:var(--aviso)}
 
-/* teléfono */
+/* ---------- cifras ----------
+   Las cuatro que la empresa puede probar hoy. No hay insignias de
+   tendencia ni minigráficos: no existe la serie de datos detrás y
+   dibujarla sería inventar. La barra fina bajo el número es el
+   acento de color del bloque, no una medición. */
+.cifras{padding-block:clamp(8px,1.6vw,16px)}
+.cifras__in{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.6vw,18px)}
+@media (max-width:760px){.cifras__in{grid-template-columns:repeat(2,1fr)}}
+.cifra{padding:20px 20px 22px;display:flex;flex-direction:column;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s}
+.cifra:hover{transform:translateY(-5px);border-color:var(--filete-2);box-shadow:var(--sombra-alta),var(--brillo)}
+.cifra__ico{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  background:var(--chip-f,rgba(0,232,138,.14));border:1px solid var(--chip-b,rgba(0,232,138,.3));
+  box-shadow:var(--brillo);margin-bottom:14px;
+}
+.cifra__ico svg{width:19px;height:19px;color:var(--chip,var(--verde))}
+.cifras__in > :nth-child(1){--chip:var(--cian);--chip-f:rgba(0,167,245,.16);--chip-b:rgba(0,167,245,.34)}
+.cifras__in > :nth-child(2){--chip:var(--aviso);--chip-f:rgba(255,194,74,.16);--chip-b:rgba(255,194,74,.34)}
+.cifras__in > :nth-child(3){--chip:#B79BFF;--chip-f:rgba(150,110,255,.18);--chip-b:rgba(150,110,255,.36)}
+.cifras__in > :nth-child(4){--chip:var(--verde);--chip-f:rgba(0,232,138,.16);--chip-b:rgba(0,232,138,.34)}
+.cifra > b{
+  display:block;font-family:var(--display);font-weight:800;line-height:.9;
+  font-size:clamp(2.2rem,4.4vw,3.1rem);color:var(--chip,var(--verde));
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.cifra__raya{
+  display:block;height:3px;border-radius:3px;margin-top:12px;width:100%;
+  background:linear-gradient(90deg,var(--chip,var(--verde)),transparent);
+  transform-origin:left;
+}
+.cifra > span{display:block;margin-top:11px;font-size:.84rem;line-height:1.48;color:var(--texto-2)}
+.cifra > span b{color:var(--texto);font-weight:600;display:block}
+
+/* ---------- lo que se pierde sin registro ---------- */
+.dolor{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,20px);margin-top:28px}
+@media (max-width:860px){.dolor{grid-template-columns:1fr}}
+.dolor__c{padding:26px 24px 28px;display:flex;flex-direction:column;gap:13px;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s}
+.dolor__c:hover{transform:translateY(-5px);border-color:var(--filete-2);box-shadow:var(--sombra-alta),var(--brillo)}
+.dolor__c > svg{width:38px;height:38px;color:var(--aviso);flex:none;padding:9px;
+  box-sizing:border-box;border-radius:12px;
+  background:rgba(255,194,74,.14);border:1px solid rgba(255,194,74,.32);box-shadow:var(--brillo)}
+.dolor__c h3{font-size:1.2rem}
+.dolor__c > p{font-size:.92rem;line-height:1.64;color:var(--texto-2)}
+.dolor__c > .resp{
+  margin-top:auto;padding:14px 15px;border-radius:var(--r-ch);
+  background:rgba(0,232,138,.07);border:1px solid rgba(0,232,138,.2);
+  font-size:.86rem;line-height:1.56;color:var(--texto);
+}
+.dolor__c > .resp b{display:block;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--verde);margin-bottom:6px;font-weight:600}
+
+/* ---------- botón flotante ----------
+   Aparece una vez que la portada (con su formulario) ya pasó, y se
+   esconde cuando el visitante llega al formulario de contacto. En
+   teléfono no sale: ahí manda la barra de abajo. */
+.flota{
+  position:fixed;z-index:50;right:clamp(14px,3vw,28px);
+  bottom:calc(clamp(14px,3vw,28px) + env(safe-area-inset-bottom,0px));
+  box-shadow:0 16px 38px -10px rgba(3,0,20,.8),0 10px 26px -10px rgba(0,217,166,.6),var(--brillo);
+  opacity:0;transform:translateY(16px) scale(.95);pointer-events:none;
+  transition:opacity .3s cubic-bezier(.2,.8,.2,1),transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.flota.vista{opacity:1;transform:none;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.flota{transition:none}}
+
+/* ---------- la barra de abajo, en teléfono ----------
+   Reemplaza al menú que se esconde. Es el dock de vidrio: lo que se
+   alcanza con el pulgar. */
+.dock{display:none}
+@media (max-width:1000px){
+  .dock{
+    display:flex;position:fixed;z-index:55;left:50%;transform:translateX(-50%);
+    bottom:calc(12px + env(safe-area-inset-bottom,0px));
+    width:min(calc(100% - 24px),430px);
+    gap:4px;padding:6px;border-radius:var(--r-pil);
+    background:rgba(10,2,44,.6);border:1px solid var(--filete);
+    box-shadow:0 14px 40px rgba(3,0,20,.6),var(--brillo);
+  }
+  .dock a{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+    padding:9px 4px 8px;border-radius:var(--r-pil);text-decoration:none;
+    color:var(--texto-2);font:600 .62rem/1 var(--cuerpo);letter-spacing:.04em;
+    text-transform:uppercase;transition:color .2s,background-color .2s;
+  }
+  .dock a svg{width:19px;height:19px}
+  .dock a:hover{color:var(--texto);background:rgba(255,255,255,.08)}
+  .dock a.dock--pri{
+    color:#042018;background:var(--degradado);
+    box-shadow:0 6px 18px -6px rgba(0,217,166,.7),var(--brillo);
+  }
+  .flota{display:none}
+  body{padding-bottom:86px}
+}
+
+/* ---------- teléfono ---------- */
 @media (max-width:600px){
-  .barra__in{gap:12px;min-height:56px}
+  :root{--r:20px;--barra:60px}
+  .barra__in{gap:10px}
   .marca img{width:32px;height:32px}
   .marca__txt b{font-size:1.02rem;white-space:nowrap}
   .marca__txt span{display:none}
-  .bt{padding:12px 15px;font-size:.9rem}
+  .bt{padding:12px 16px;font-size:.88rem}
+  .bt--circ{width:40px;height:40px;padding:0}
   .solo-ancho{display:none}
   .solo-angosto{display:inline}
   .hoja__margen{left:44px}
   .reg-fila{grid-template-columns:44px 1fr}
   .hoja__tit,.hoja__pie{padding-left:52px}
   .bajada{font-size:1rem}
-  .dato{grid-template-columns:96px minmax(0,1fr);row-gap:4px}
+  .dato{grid-template-columns:92px minmax(0,1fr);row-gap:6px}
   .dato > .copiar{grid-column:2;justify-self:start}
+  .reg,.dolor__c,.paso{padding-inline:20px}
+  .campos,.linea__tit,.linea__pie{padding-inline:16px}
 }
 
 /* ---------- movimiento ----------
-   Dos clases de movimiento, y ninguna decorativa:
+   Tres clases, y ninguna decorativa:
    1. la hoja se dibuja al cargar (es el concepto de la página);
-   2. cada bloque entra al aparecer en pantalla, porque la página es larga y
-      el movimiento dice "aquí empieza otra cosa" mejor que una línea.
-   Todo se apaga con prefers-reduced-motion. Sin esa preferencia el estado
-   inicial nunca se aplica, así que con JS apagado igual se ve todo. */
+   2. cada bloque entra desvaneciéndose y enfocándose, porque la
+      página es larga y eso dice "aquí empieza otra cosa" mejor que
+      una línea;
+   3. las cifras cuentan y su raya se dibuja.
+   Todo se apaga con prefers-reduced-motion. Sin esa preferencia el
+   estado inicial nunca se aplica, así que con JS apagado se ve todo.
+   El estado inicial vive bajo .js, que agrega un script del <head>. */
 @media (prefers-reduced-motion:no-preference){
   .hoja__margen{animation:raya .8s cubic-bezier(.16,1,.3,1) both}
   .timbre{animation:timbre .7s .25s cubic-bezier(.16,1,.3,1) both}
   .js .aparece{
-    opacity:0;transform:translateY(20px);
-    transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+    opacity:0;transform:translateY(22px);filter:blur(10px);
+    transition:opacity .62s cubic-bezier(.16,1,.3,1),
+               transform .62s cubic-bezier(.16,1,.3,1),
+               filter .62s cubic-bezier(.16,1,.3,1);
     transition-delay:var(--demora,0ms);
-    will-change:opacity,transform;
+    will-change:opacity,transform,filter;
   }
-  .js .aparece.vista{opacity:1;transform:none;will-change:auto}
+  .js .aparece.vista{opacity:1;transform:none;filter:none;will-change:auto}
   .js .hoja .reg-fila{
     opacity:0;animation:escribir .5s cubic-bezier(.16,1,.3,1) forwards;
     animation-delay:calc(.34s + var(--n,0) * .11s);
   }
+  .js .cifra.vista .cifra__raya{animation:dibujar .8s .15s cubic-bezier(.16,1,.3,1) both}
+  .faq details[open] .faq__r{animation:abrir .3s cubic-bezier(.16,1,.3,1) both}
+  .barra__in{transition:min-height .25s cubic-bezier(.16,1,.3,1)}
 }
 @keyframes escribir{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
-
-/* ---------- cifras ---------- */
-.cifras{border-bottom:1px solid var(--filete);background:var(--tinta-prof)}
-.cifras__in{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-  background:var(--filete);border-inline:1px solid var(--filete);
-}
-@media (max-width:760px){.cifras__in{grid-template-columns:repeat(2,1fr)}}
-.cifra{background:var(--tinta-prof);padding:22px clamp(14px,2.4vw,24px) 24px}
-.cifra > b{
-  display:block;font-family:var(--display);font-weight:800;line-height:.9;
-  font-size:clamp(2.3rem,4.6vw,3.3rem);color:var(--verde);
-  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
-}
-.cifra > span{display:block;margin-top:9px;font-size:.84rem;line-height:1.45;color:var(--sobre-tinta-2)}
-.cifra > span b{color:var(--sobre-tinta);font-weight:600;display:block}
-
-/* ---------- lo que se pierde sin registro ---------- */
-.dolor{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--filete);
-  border:1px solid var(--filete);border-radius:3px;overflow:hidden}
-@media (max-width:860px){.dolor{grid-template-columns:1fr}}
-.dolor__c{background:var(--tinta);padding:26px 24px 28px;display:flex;flex-direction:column;gap:12px}
-.dolor__c > svg{width:26px;height:26px;color:var(--aviso);flex:none}
-.dolor__c h3{font-size:1.2rem}
-.dolor__c > p{font-size:.92rem;line-height:1.62;color:var(--sobre-tinta-2)}
-.dolor__c > .resp{
-  margin-top:auto;padding-top:14px;border-top:1px solid var(--filete);
-  font-size:.86rem;line-height:1.55;color:var(--sobre-tinta);
-}
-.dolor__c > .resp b{display:block;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--verde);margin-bottom:6px;font-weight:600}
-
-/* ---------- compromisos ---------- */
-.comp{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,4vw,56px);align-items:start}
-@media (max-width:900px){.comp{grid-template-columns:1fr}}
-.comp__lado p{color:var(--sobre-tinta-2);margin-top:16px;max-width:42ch;line-height:1.68}
-.lista{display:flex;flex-direction:column;gap:0;
-  border:1px solid var(--filete);border-radius:3px;background:var(--tinta-prof);overflow:hidden}
-.lista > li{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr);gap:13px;
-  align-items:start;padding:16px 18px;border-bottom:1px solid var(--filete)}
-.lista > li:last-child{border-bottom:0}
-.lista svg{width:19px;height:19px;color:var(--verde);flex:none;margin-top:3px;grid-row:1/3}
-.lista > li > b{grid-column:2;font-weight:600;font-size:.98rem}
-.lista > li > span{grid-column:2;display:block;margin-top:4px;font-size:.88rem;
-  line-height:1.58;color:var(--sobre-tinta-2)}
-.lista > li > b .pend{font-weight:600}
-
-/* ---------- preguntas frecuentes ---------- */
-.faq{border:1px solid var(--filete);border-radius:3px;overflow:hidden;background:var(--tinta-prof)}
-.faq > details{border-bottom:1px solid var(--filete)}
-.faq > details:last-child{border-bottom:0}
-.faq summary{
-  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;
-  padding:18px 18px;cursor:pointer;list-style:none;
-  font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:clamp(1rem,1.8vw,1.14rem);letter-spacing:.012em;line-height:1.15;
-  transition:background-color .15s,color .15s;
-}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary:hover{background:rgba(242,240,255,.04)}
-.faq summary i{
-  display:block;width:20px;height:20px;position:relative;flex:none;
-  border:1px solid var(--filete);border-radius:2px;transition:border-color .15s;
-}
-.faq summary i::before,.faq summary i::after{
-  content:"";position:absolute;inset:50% 4px auto;height:1.5px;background:var(--verde);
-  transform:translateY(-50%);transition:transform .22s cubic-bezier(.16,1,.3,1);
-}
-.faq summary i::after{transform:translateY(-50%) rotate(90deg)}
-.faq details[open] summary{color:var(--verde)}
-.faq details[open] summary i{border-color:var(--verde)}
-.faq details[open] summary i::after{transform:translateY(-50%) rotate(0)}
-.faq__r{padding:0 18px 20px;max-width:72ch}
-.faq__r p{font-size:.95rem;line-height:1.68;color:var(--sobre-tinta-2)}
-.faq__r p + p{margin-top:10px}
-.faq__r b{color:var(--sobre-tinta);font-weight:600}
-@media (prefers-reduced-motion:no-preference){
-  .faq details[open] .faq__r{animation:abrir .3s cubic-bezier(.16,1,.3,1) both}
-}
 @keyframes abrir{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-
-/* ---------- botón flotante ----------
-   Aparece una vez que la portada (con su formulario) ya pasó, y se esconde
-   cuando el visitante llega al formulario de contacto: ahí estorbaría. */
-.flota{
-  position:fixed;z-index:50;right:clamp(14px,3vw,28px);
-  bottom:calc(clamp(14px,3vw,28px) + env(safe-area-inset-bottom,0px));
-  box-shadow:0 14px 34px -10px rgba(4,0,22,.85),0 10px 24px -12px rgba(0,232,138,.6);
-  opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;
-  transition:opacity .28s cubic-bezier(.16,1,.3,1),transform .28s cubic-bezier(.16,1,.3,1);
-}
-.flota.vista{opacity:1;transform:none;pointer-events:auto}
-@media (prefers-reduced-motion:reduce){.flota{transition:none}}
-
-/* la barra se achica al bajar: deja ver más página sin perder el acceso */
-.barra{transition:box-shadow .2s}
-.barra--baja{box-shadow:0 10px 26px -18px rgba(4,0,22,.9)}
-.barra--baja .barra__in{min-height:54px}
-@media (prefers-reduced-motion:no-preference){
-  .barra__in{transition:min-height .2s cubic-bezier(.16,1,.3,1)}
-}
-
-/* sectores: cada uno prellena el formulario, así que son botones */
-.sectores button{
-  font:500 .9rem/1 var(--cuerpo);color:var(--sobre-tinta);cursor:pointer;
-  padding:10px 15px;border-radius:2px;background:var(--tinta-prof);border:0;
-  box-shadow:inset 0 0 0 1px var(--filete);
-  transition:box-shadow .15s,transform .15s,color .15s;
-}
-.sectores button:hover{box-shadow:inset 0 0 0 1px var(--verde);transform:translateY(-2px)}
-.sectores li{padding:0;background:none;box-shadow:none}
-.sectores__rot{margin-top:26px;margin-bottom:12px;font-size:.7rem;letter-spacing:.15em;
-  text-transform:uppercase;color:var(--sobre-tinta-2);font-weight:600}
-
-/* enlace para cotizar un servicio desde su propia fila */
-.reg__cot{
-  display:inline-flex;align-items:center;gap:7px;margin-top:14px;
-  font:600 .82rem/1 var(--cuerpo);letter-spacing:.04em;text-transform:uppercase;
-  color:var(--verde);background:none;border:0;padding:0;cursor:pointer;
-}
-.reg__cot svg{width:15px;height:15px;transition:transform .18s cubic-bezier(.16,1,.3,1)}
-.reg__cot:hover svg{transform:translateX(4px)}
-
-/* el campo que acaba de recibir el foco desde un botón de la página */
-.campo--trae input,.campo--trae select{border-color:var(--verde);background:#1A0C55}
 @keyframes raya{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes dibujar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes timbre{
   from{transform:rotate(-16deg) scale(1.14);opacity:.25}
   to{transform:rotate(-7deg) scale(1);opacity:.9}
+}
+
+/* la barra se cierra al bajar: el vidrio se vuelve más opaco para que
+   el texto que pasa por debajo no compita con el menú */
+.barra--baja{
+  background:linear-gradient(180deg,rgba(7,0,36,.82),rgba(7,0,36,.62));
+  border-bottom-color:rgba(255,255,255,.16);
+  box-shadow:0 10px 30px -18px rgba(3,0,20,.95);
+}
+.barra--baja .barra__in{min-height:58px}
+@media (max-width:600px){.barra--baja .barra__in{min-height:52px}}
+
+/* el campo que acaba de recibir el foco desde un botón de la página */
+.campo--trae input,.campo--trae select{
+  border-color:var(--verde);background:rgba(0,232,138,.1);
+  box-shadow:0 0 0 3px rgba(0,232,138,.16);
+}
+
+/* ---------- accesibilidad del material ----------
+   Donde el sistema pide menos transparencia o más contraste, el
+   vidrio se vuelve sólido en vez de desaparecer. */
+@media (prefers-reduced-transparency:reduce){
+  .linea,.cifra,.dolor__c,.reg,.paso,.lista,.faq,.dato,.pie__in,
+  .cinta__in > span,.regiones li,.sectores button,.dock{
+    background:#130A4E;-webkit-backdrop-filter:none;backdrop-filter:none;
+  }
+  .barra{background:#0A0031;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .hoja,.carpeta{background:var(--papel);-webkit-backdrop-filter:none;backdrop-filter:none}
+  body::before{background:linear-gradient(168deg,#160A4A,#070024)}
+}
+@media (prefers-contrast:more){
+  :root{--texto-2:rgba(255,255,255,.82);--texto-3:rgba(255,255,255,.68);
+        --filete:rgba(255,255,255,.4);--vid:rgba(255,255,255,.12)}
 }
 </style>
 </head>
@@ -542,10 +783,19 @@ section{scroll-margin-top:84px}
       <a href="#preguntas">Preguntas</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <a class="bt bt--pri" href="#contacto">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5.2c0-.7.6-1.3 1.3-1.3h2c.6 0 1.1.4 1.2 1l.6 2.5c.1.5-.1 1-.5 1.2l-1.2.8a9.5 9.5 0 0 0 4.7 4.7l.8-1.2c.3-.4.7-.6 1.2-.5l2.5.6c.6.1 1 .6 1 1.2v2c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 5.2Z"/></svg>
-      <span class="bt__txt"><span class="solo-ancho">Dejar mis datos</span><span class="solo-angosto">Contacto</span></span>
-    </a>
+    <div class="barra__acc">
+      <!-- El href lo pone el objeto DATOS: acá no se escribe el teléfono por
+           segunda vez. Se marca con data-fono y no con data-enlace porque
+           data-enlace reemplaza el contenido del elemento, y acá adentro hay
+           un dibujo, no texto. -->
+      <a class="bt bt--circ" data-fono href="#contacto" aria-label="Llamar por teléfono" title="Llamar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5.2c0-.7.6-1.3 1.3-1.3h2c.6 0 1.1.4 1.2 1l.6 2.5c.1.5-.1 1-.5 1.2l-1.2.8a9.5 9.5 0 0 0 4.7 4.7l.8-1.2c.3-.4.7-.6 1.2-.5l2.5.6c.6.1 1 .6 1 1.2v2c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 5.2Z"/></svg>
+      </a>
+      <a class="bt bt--pri" href="#contacto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.8 20 4l-7.2 16-1.9-6.1Z"/><path d="M10.9 13.9 20 4"/></svg>
+        <span class="bt__txt"><span class="solo-ancho">Dejar mis datos</span><span class="solo-angosto">Contacto</span></span>
+      </a>
+    </div>
   </div>
 </header>
 
@@ -657,10 +907,30 @@ section{scroll-margin-top:84px}
   <!-- CIFRAS — solo números que la empresa puede probar hoy -->
   <div class="cifras">
     <div class="env cifras__in">
-      <div class="cifra aparece"><b data-contar="5">5</b><span><b>Regiones</b>De Antofagasta a Biobío</span></div>
-      <div class="cifra aparece" style="--demora:80ms"><b data-contar="5">5</b><span><b>Parques fotovoltaicos</b>Resguardados hoy, turno a turno</span></div>
-      <div class="cifra aparece" style="--demora:160ms"><b data-contar="7">7</b><span><b>Procedimientos vigentes</b>Firmados antes de tomar el puesto</span></div>
-      <div class="cifra aparece" style="--demora:240ms"><b>24/7</b><span><b>Cobertura de turnos</b>Diurno, nocturno y fin de semana</span></div>
+      <div class="cifra aparece">
+        <i class="cifra__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></i>
+        <b data-contar="5">5</b>
+        <i class="cifra__raya" aria-hidden="true"></i>
+        <span><b>Regiones</b>De Antofagasta a Biobío</span>
+      </div>
+      <div class="cifra aparece" style="--demora:80ms">
+        <i class="cifra__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 14.5 7 5.2h10l2.4 9.3H4.6Z"/><path d="M12 5.2v9.3M5.7 10h12.6"/><path d="M12 14.5V19M8.6 19h6.8"/></svg></i>
+        <b data-contar="5">5</b>
+        <i class="cifra__raya" aria-hidden="true"></i>
+        <span><b>Parques fotovoltaicos</b>Resguardados hoy, turno a turno</span>
+      </div>
+      <div class="cifra aparece" style="--demora:160ms">
+        <i class="cifra__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12.5h6M9 16h4"/></svg></i>
+        <b data-contar="7">7</b>
+        <i class="cifra__raya" aria-hidden="true"></i>
+        <span><b>Procedimientos vigentes</b>Firmados antes de tomar el puesto</span>
+      </div>
+      <div class="cifra aparece" style="--demora:240ms">
+        <i class="cifra__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.6V12l3 1.8"/></svg></i>
+        <b>24/7</b>
+        <i class="cifra__raya" aria-hidden="true"></i>
+        <span><b>Cobertura de turnos</b>Diurno, nocturno y fin de semana</span>
+      </div>
     </div>
   </div>
 
@@ -782,7 +1052,7 @@ section{scroll-margin-top:84px}
   </section>
 
   <!-- EXPEDIENTE -->
-  <section class="sec" id="expediente" style="background:var(--tinta-prof);border-block:1px solid var(--filete)">
+  <section class="sec sec--banda" id="expediente">
     <div class="env exp">
       <div class="exp__lado aparece">
         <h2>El procedimiento no se improvisa en terreno</h2>
@@ -866,7 +1136,7 @@ section{scroll-margin-top:84px}
   </section>
 
   <!-- COMPROMISOS -->
-  <section class="sec" id="compromisos" style="background:var(--tinta-prof);border-block:1px solid var(--filete)">
+  <section class="sec sec--banda" id="compromisos">
     <div class="env comp">
       <div class="comp__lado aparece">
         <h2>A qué nos comprometemos antes de empezar</h2>
@@ -954,7 +1224,7 @@ section{scroll-margin-top:84px}
   </section>
 
   <!-- CONTACTO -->
-  <section class="sec" id="contacto" style="background:var(--tinta-prof);border-top:1px solid var(--filete)">
+  <section class="sec sec--banda" id="contacto">
     <div class="env cont">
       <div>
         <h2>Déjenos sus datos</h2>
@@ -1069,6 +1339,15 @@ section{scroll-margin-top:84px}
   Dejar mis datos
 </a>
 
+<!-- En teléfono el menú de arriba se esconde y lo reemplaza este dock de
+     vidrio, que queda donde llega el pulgar. Son anclas: no necesita JS. -->
+<nav class="dock" aria-label="Secciones (teléfono)">
+  <a href="#servicios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2 19.5 6v6c0 4.3-3.1 8.2-7.5 9.2C7.6 20.2 4.5 16.3 4.5 12V6Z"/></svg>Servicios</a>
+  <a href="#pasos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Pasos</a>
+  <a href="#preguntas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M9.7 9.6a2.4 2.4 0 1 1 3.3 2.2c-.6.3-1 .9-1 1.6v.3"/><path d="M12 17.1h.01"/></svg>Preguntas</a>
+  <a class="dock--pri" href="#contacto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.8 20 4l-7.2 16-1.9-6.1Z"/><path d="M10.9 13.9 20 4"/></svg>Mis datos</a>
+</nav>
+
 <footer class="pie">
   <div class="env pie__in">
     <a class="marca" href="#" style="margin-right:0">
@@ -1145,6 +1424,13 @@ const DATOS = {
       el.classList.remove("pend");
     });
   });
+
+  // El botón circular de la barra lleva un dibujo adentro, así que de él
+  // solo se toca el href: escribirle el texto encima borraría el ícono.
+  if (DATOS.telefono) {
+    const tel = "tel:" + DATOS.telefono.replace(/[^+\d]/g, "");
+    document.querySelectorAll("[data-fono]").forEach(el => { el.href = tel; });
+  }
 
   if (DATOS.horario) {
     const nota = document.getElementById("f-largo-nota");
@@ -1348,6 +1634,24 @@ const DATOS = {
 
   const barra = document.querySelector(".barra");
 
+  // La píldora blanca del menú sigue a la sección que se está leyendo.
+  // Se resuelve con el mismo repaso del scroll y no con otro observador:
+  // un solo recorrido por cuadro, y se arregla solo si alguien agrega un
+  // enlace al menú mañana.
+  const enlacesNav = Array.from(document.querySelectorAll(".nav a[href^='#']"))
+    .map(a => ({ a: a, sec: document.getElementById(a.getAttribute("href").slice(1)) }))
+    .filter(x => x.sec);
+
+  const marcarNav = () => {
+    if (!enlacesNav.length) return;
+    const corte = (barra ? barra.offsetHeight : 72) + 24;
+    let activa = null;
+    enlacesNav.forEach(x => {
+      if (x.sec.getBoundingClientRect().top <= corte) activa = x.a;
+    });
+    enlacesNav.forEach(x => x.a.classList.toggle("activa", x.a === activa));
+  };
+
   const repasar = () => {
     const linea = window.innerHeight * .9;   // donde se considera "ya entró"
     bloques = bloques.filter(el => {
@@ -1363,6 +1667,7 @@ const DATOS = {
     });
     // La barra se achica al bajar: es fija y ocupaba demasiado alto.
     if (barra) barra.classList.toggle("barra--baja", window.scrollY > 90);
+    marcarNav();
   };
 
   let pedido = false;
